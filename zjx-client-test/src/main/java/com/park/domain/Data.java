@@ -6,40 +6,52 @@ package com.park.domain;
  */
 public class Data {
 
-    private String name;
+	private String name;
 
-    private Integer age;
+	private int age;
 
-    public Data() {
-        
-    }
+	private Integer height;
 
-    public Data(String name, Integer age) {
-        this.name = name;
-        this.age = age;
-    }
+	public Data() {
 
-    public String getName() {
-        return name;
-    }
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public Data(String name, int age, Integer height) {
+		this.name = name;
+		this.age = age;
+		this.height = height;
+	}
 
-    public Integer getAge() {
-        return age;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setAge(Integer age) {
-        this.age = age;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    @Override
-    public String toString() {
-        return "Data{" +
-                "name='" + name + '\'' +
-                ", age=" + age +
-                '}';
-    }
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public Integer getHeight() {
+		return height;
+	}
+
+	public void setHeight(Integer height) {
+		this.height = height;
+	}
+
+	@Override
+	public String toString() {
+		return "Data{" +
+				"name='" + name + '\'' +
+				", age=" + age +
+				", height=" + height +
+				'}';
+	}
 }

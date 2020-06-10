@@ -22,8 +22,8 @@ public class ApplicationTest {
 
         bean.doService("not use proxy");
 
-        bean.doServiceStatistics(new Data("Aaron", 20));
+        bean.doServiceStatistics(new Data("Aaron", 20,174));
 
-        bean.doService(new Data("Aaron", 20),"str");
+        bean.doService(new Data("Aaron", 20,174),"123456");
     }
 }

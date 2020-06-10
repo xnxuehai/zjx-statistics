@@ -26,6 +26,6 @@ public class BizServiceImpl implements BizService {
     @Override
     public Data doService(Data data, String str) {
         System.out.println("通过代理执行业务逻辑...... param is:" + data + " str:" + str);
-        return new Data("Aaron", 20);
+        return new Data("Aaron", 20,174);
     }
 }

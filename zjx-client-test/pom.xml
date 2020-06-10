@@ -18,5 +18,4 @@
             <artifactId>zjx-statistics-client</artifactId>
         </dependency>
     </dependencies>
-
 </project>
