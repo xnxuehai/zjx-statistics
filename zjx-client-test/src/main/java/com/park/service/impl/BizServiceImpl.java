@@ -1,5 +1,6 @@
 package com.park.service.impl;
 
+import com.park.domain.Data;
 import com.park.service.BizService;
 import org.springframework.stereotype.Service;
 
@@ -11,12 +12,20 @@ import org.springframework.stereotype.Service;
 public class BizServiceImpl implements BizService {
 
     @Override
-    public void doServiceStatistics(String name) {
-        System.out.println("通过代理执行业务逻辑...... param is:" + name);
+    public String doServiceStatistics(Data data) {
+        System.out.println("通过代理执行业务逻辑...... param is:" + data);
+        return "SUCCESS";
     }
 
     @Override
-    public void doService(String name) {
+    public Data doService(String name) {
         System.out.println("不通过代理执行业务逻辑...... param is:" + name);
+        return new Data();
+    }
+
+    @Override
+    public Data doService(Data data, String str) {
+        System.out.println("通过代理执行业务逻辑...... param is:" + data + " str:" + str);
+        return new Data("Aaron", 20);
     }
 }

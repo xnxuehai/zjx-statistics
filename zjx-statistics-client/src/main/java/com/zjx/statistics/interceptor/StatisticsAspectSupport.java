@@ -60,7 +60,7 @@ public abstract class StatisticsAspectSupport implements BeanFactoryAware, Initi
             if (statisticsOperationSource != null) {
                 Collection<AbstractStatisticsOperation> operations = statisticsOperationSource.getStatisticsOperations(method, targetClass);
                 if (!CollectionUtils.isEmpty(operations)) {
-                    return execute(invoker, method, operations);
+                    return execute(invoker, method, operations, args);
                 }
             }
         }
@@ -69,13 +69,25 @@ public abstract class StatisticsAspectSupport implements BeanFactoryAware, Initi
     }
 
     @Nullable
-    private Object execute(final StatisticsOperationInvoker invoker, Method method, Collection<AbstractStatisticsOperation> operations) {
+    private Object execute(final StatisticsOperationInvoker invoker, Method method, Collection<AbstractStatisticsOperation> operations, Object[] args) {
 
         // TODO 主要的业务逻辑，此处需要根据 模块 和 统计的参数 进行处理！
         // TODO 根据业务情况是同步处理还是异步处理！
         // TODO 发生异常处理措施！
+
+        Class<?>[] parameterTypes = method.getParameterTypes();
+
+        for (Object arg : args) {
+            System.out.println("参数值：" + arg);
+
+            for (Class<?> parameterType : parameterTypes) {
+                System.out.println("参数类型：" + parameterType.getName());
+            }
+        }
+
         System.out.println("前置处理.........");
         Object returnValue = invokeOperation(invoker);
+        System.out.println("真实业务的返回值：" + returnValue);
         System.out.println("后置处理.........");
         return returnValue;
     }

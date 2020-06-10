@@ -1,5 +1,6 @@
 package com.park;
 
+import com.park.domain.Data;
 import com.park.service.BizService;
 import com.zjx.statistics.annotation.EnableZjxStatistics;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -21,6 +22,8 @@ public class ApplicationTest {
 
         bean.doService("not use proxy");
 
-        bean.doServiceStatistics("use proxy");
+        bean.doServiceStatistics(new Data("Aaron", 20));
+
+        bean.doService(new Data("Aaron", 20),"str");
     }
 }

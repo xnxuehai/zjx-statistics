@@ -1,5 +1,6 @@
 package com.park.service;
 
+import com.park.domain.Data;
 import com.zjx.statistics.annotation.ZjxStatistics;
 
 /**
@@ -10,14 +11,27 @@ public interface BizService {
     /**
      * 代理
      *
-     * @param name
+     * @param data
+     * @return
      */
-    @ZjxStatistics(module = "video", field = {"name", "pwd"})
-    void doServiceStatistics(String name);
+    @ZjxStatistics(module = "video", field = {"name", "age"})
+    String doServiceStatistics(Data data);
 
     /**
      * 不代理
+     *
      * @param name
+     * @return
      */
-    void doService(String name);
+    Data doService(String name);
+
+    /**
+     * 代理
+     *
+     * @param data
+     * @return
+     */
+    @ZjxStatistics(module = "video", field = {"name", "age"})
+    Data doService(Data data, String str);
+
 }
