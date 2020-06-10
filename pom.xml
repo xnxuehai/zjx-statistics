@@ -6,15 +6,17 @@
 
     <groupId>com.zjx</groupId>
     <artifactId>zjx-statistics</artifactId>
-    <version>0.0.1</version>
+    <version>${zjx-statistics.version}</version>
 
     <packaging>pom</packaging>
 
     <modules>
         <module>zjx-statistics-client</module>
+        <module>zjx-client-test</module>
     </modules>
 
     <properties>
+        <zjx-statistics.version>0.0.1</zjx-statistics.version>
         <spring.version>5.2.2.RELEASE</spring.version>
         <aspectjweaver.version>1.9.5</aspectjweaver.version>
         <data-redis.version>2.3.0.RELEASE</data-redis.version>
@@ -52,6 +54,12 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
                 <version>${fastjson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.zjx</groupId>
+                <artifactId>zjx-statistics-client</artifactId>
+                <version>${zjx-statistics.version}</version>
             </dependency>
 
         </dependencies>

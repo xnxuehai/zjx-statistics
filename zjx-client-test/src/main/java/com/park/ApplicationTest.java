@@ -1,5 +1,6 @@
-package com.zjx.service;
+package com.park;
 
+import com.park.service.BizService;
 import com.zjx.statistics.annotation.EnableZjxStatistics;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
@@ -9,7 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
  * @date 2020/6/10 3:34 下午
  */
 @EnableZjxStatistics
-@ComponentScan(basePackages = "com.zjx.service")
+@ComponentScan
 public class ApplicationTest {
     public static void main(String[] args) {
         AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext();
@@ -18,6 +19,8 @@ public class ApplicationTest {
 
         BizService bean = applicationContext.getBean(BizService.class);
 
-        bean.doService("input param");
+        bean.doService("not use proxy");
+
+        bean.doServiceStatistics("use proxy");
     }
 }
