@@ -14,7 +14,7 @@ public interface BizService {
 	 * @param data
 	 * @return
 	 */
-	@ZjxStatistics(module = "video", field = {"name", "age"})
+//	@ZjxStatistics(module = "video", field = {"name", "age"})
 	String doServiceStatistics(Data data);
 
 	/**
@@ -32,7 +32,7 @@ public interface BizService {
 	 * @param str
 	 * @return
 	 */
-	@ZjxStatistics(module = "video", field = {"name", "str", "height"})
+//	@ZjxStatistics(module = "video", field = {"name", "str", "height"})
 	Data doService(Data data, String str);
 
 }
