@@ -2,7 +2,6 @@ package com.zjx.statistics.interceptor;
 
 import com.zjx.statistics.interceptor.operation.AbstractStatisticsOperation;
 import com.zjx.statistics.rpc.dto.CounterDTO;
-import com.zjx.statistics.rpc.parser.DataParser;
 import com.zjx.statistics.rpc.parser.DataToRpcParser;
 import org.springframework.aop.framework.AopProxyUtils;
 import org.springframework.beans.BeansException;
@@ -124,7 +123,7 @@ public abstract class StatisticsAspectSupport implements BeanFactoryAware, Initi
 
         poolExecutor.execute(() -> {
             // 解析数据
-            DataParser parser = new DataToRpcParser();
+            DataToRpcParser parser = new DataToRpcParser();
             // TODO 解析数据和发送数据异步处理
             List<CounterDTO> counterDTO = parser.parser(method, operations, args);
             // TODO 发送数据到服务端

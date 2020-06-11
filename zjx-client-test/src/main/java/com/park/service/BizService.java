@@ -14,7 +14,6 @@ public interface BizService {
 	 * @param data
 	 * @return
 	 */
-//	@ZjxStatistics(module = "video", field = {"name", "age"})
 	String doServiceStatistics(Data data);
 
 	/**
@@ -30,9 +29,10 @@ public interface BizService {
 	 *
 	 * @param data
 	 * @param str
+	 * @param userId
 	 * @return
 	 */
-//	@ZjxStatistics(module = "video", field = {"name", "str", "height"})
-	Data doService(Data data, String str);
+	@ZjxStatistics(key = "userId", module = "video", isCountSelf = true, paramField = {"name", "height"}, tableField = {"table_name", "table_height"}/*, openStatus = {"status"}, tableStatus = {"table_status"}*/)
+	Data doService(Data data, String str, String userId);
 
 }

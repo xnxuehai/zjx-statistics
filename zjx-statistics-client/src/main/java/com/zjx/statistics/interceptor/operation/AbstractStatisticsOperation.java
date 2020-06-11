@@ -129,7 +129,7 @@ public class AbstractStatisticsOperation implements BasicOperation {
         }
 
         public void setKey(String key) {
-            Assert.hasText(name, "Name must not be empty");
+            Assert.hasText(name, "Key must not be empty");
             this.key = key;
         }
 
@@ -139,58 +139,49 @@ public class AbstractStatisticsOperation implements BasicOperation {
         }
 
         public void setCountSelf(Boolean countSelf) {
-            Assert.hasText(module, "CountSelf must not be empty");
             this.countSelf = countSelf;
         }
 
         public void setParamField(String paramField) {
-            Assert.hasText(module, "ParamField must not be empty");
             this.paramField = Collections.singleton(paramField);
         }
 
         public void setParamField(String... paramFields) {
             this.paramField = new LinkedHashSet<>(paramFields.length);
             for (String field : paramFields) {
-                Assert.hasText(field, "ParamFields name must be non-empty if specified");
                 this.paramField.add(field);
             }
         }
 
         public void setTableField(String tableField) {
-            Assert.hasText(module, "TableField must not be empty");
             this.tableField = Collections.singleton(tableField);
         }
 
         public void setTableField(String... tableFields) {
             this.tableField = new LinkedHashSet<>(tableFields.length);
             for (String field : tableFields) {
-                Assert.hasText(field, "TableFields name must be non-empty if specified");
                 this.tableField.add(field);
             }
         }
 
         public void setOpenStatus(String openStatus) {
-            Assert.hasText(openStatus, "OpenStatus name must be non-empty if specified");
             this.openStatus = Collections.singleton(openStatus);
         }
 
         public void setOpenStatus(String... openStatus) {
             this.openStatus = new LinkedHashSet<>(openStatus.length);
             for (String field : openStatus) {
-                Assert.hasText(field, "OpenStatus name must be non-empty if specified");
                 this.openStatus.add(field);
             }
         }
 
         public void setTableStatus(String tableStatus) {
-            Assert.hasText(tableStatus, "TableStatus name must be non-empty if specified");
             this.tableStatus = Collections.singleton(tableStatus);
         }
 
         public void setTableStatus(String... tableStatus) {
             this.tableStatus = new LinkedHashSet<>(tableStatus.length);
             for (String field : tableStatus) {
-                Assert.hasText(field, "TableStatus name must be non-empty if specified");
                 this.tableStatus.add(field);
             }
         }

@@ -16,7 +16,7 @@ public class TableFieldCount implements Serializable {
     /**
      * 需要统计的值
      */
-    private Integer fieldCount;
+    private Object fieldCount;
 
     public String getTableFieldName() {
         return tableFieldName;
@@ -26,11 +26,11 @@ public class TableFieldCount implements Serializable {
         this.tableFieldName = tableFieldName;
     }
 
-    public Integer getFieldCount() {
+    public Object getFieldCount() {
         return fieldCount;
     }
 
-    public void setFieldCount(Integer fieldCount) {
+    public void setFieldCount(Object fieldCount) {
         this.fieldCount = fieldCount;
     }
 

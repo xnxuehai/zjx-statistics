@@ -11,21 +11,21 @@ import org.springframework.stereotype.Service;
 @Service
 public class BizServiceImpl implements BizService {
 
-    @Override
-    public String doServiceStatistics(Data data) {
-        System.out.println("通过代理执行业务逻辑...... param is:" + data);
-        return "SUCCESS";
-    }
+	@Override
+	public String doServiceStatistics(Data data) {
+		System.out.println("通过代理执行业务逻辑...... param is:" + data);
+		return "SUCCESS";
+	}
 
-    @Override
-    public Data doService(String name) {
-        System.out.println("不通过代理执行业务逻辑...... param is:" + name);
-        return new Data();
-    }
+	@Override
+	public Data doService(String name) {
+		System.out.println("不通过代理执行业务逻辑...... param is:" + name);
+		return new Data();
+	}
 
-    @Override
-    public Data doService(Data data, String str) {
-        System.out.println("通过代理执行业务逻辑...... param is:" + data + " str:" + str);
-        return new Data("Aaron", 20,174);
-    }
+	@Override
+	public Data doService(Data data, String str, String userId) {
+		System.out.println("通过代理执行业务逻辑...... param is:" + data + " str:" + str + " userId:" + userId);
+		return new Data("Aaron", 20, 174);
+	}
 }

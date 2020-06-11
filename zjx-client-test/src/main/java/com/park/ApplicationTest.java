@@ -13,17 +13,18 @@ import org.springframework.context.annotation.ComponentScan;
 @EnableZjxStatistics
 @ComponentScan
 public class ApplicationTest {
-    public static void main(String[] args) {
-        AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext();
-        applicationContext.register(ApplicationTest.class);
-        applicationContext.refresh();
+	public static void main(String[] args) {
+		AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext();
+		applicationContext.register(ApplicationTest.class);
+		applicationContext.refresh();
 
-        BizService bean = applicationContext.getBean(BizService.class);
+		BizService bean = applicationContext.getBean(BizService.class);
 
-        bean.doService("not use proxy");
+//        bean.doService("not use proxy");
+//
+//        bean.doServiceStatistics(new Data("Aaron", 20,174));
 
-        bean.doServiceStatistics(new Data("Aaron", 20,174));
+		bean.doService(new Data("Aaron", 20, 174), "123456", "1");
 
-        bean.doService(new Data("Aaron", 20,174),"123456");
-    }
+	}
 }
