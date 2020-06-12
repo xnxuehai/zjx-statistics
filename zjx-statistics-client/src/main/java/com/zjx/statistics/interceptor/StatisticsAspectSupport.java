@@ -10,10 +10,10 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.Resource;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 最主要的抽象类，在这个类中进行了，前置通知 和 后置通知的 逻辑。
@@ -29,41 +29,8 @@ public abstract class StatisticsAspectSupport implements BeanFactoryAware, Initi
     @Nullable
     private BeanFactory beanFactory;
 
-    /**
-     * 构建线程池
-     */
-    private ThreadPoolExecutor poolExecutor = new ThreadPoolExecutor(30, 30, 60, TimeUnit.SECONDS,
-            new LinkedBlockingQueue(), new MyThreadFactory("Zjx-statistics-Thread"), new ThreadPoolExecutor.AbortPolicy());
-
-    /**
-     * 构建线程池工厂
-     */
-    static class MyThreadFactory implements ThreadFactory {
-        private ThreadGroup group;
-        private final AtomicInteger threadNumber = new AtomicInteger(1);
-        private String namePrefix;
-
-        MyThreadFactory(String namePrefix) {
-            SecurityManager s = System.getSecurityManager();
-            group = (s != null) ? s.getThreadGroup() :
-                    Thread.currentThread().getThreadGroup();
-            this.namePrefix = namePrefix;
-        }
-
-        @Override
-        public Thread newThread(Runnable r) {
-            Thread t = new Thread(group, r,
-                    namePrefix + "-" + threadNumber.getAndIncrement(),
-                    0);
-            if (t.isDaemon()) {
-                t.setDaemon(false);
-            }
-            if (t.getPriority() != Thread.NORM_PRIORITY) {
-                t.setPriority(Thread.NORM_PRIORITY);
-            }
-            return t;
-        }
-    }
+    @Resource(name = "statisticsThreadPoolExecutor")
+    private Executor executor;
 
 
     public void setCacheOperationSource(@Nullable StatisticsOperationSource statisticsOperationSource) {
@@ -119,7 +86,7 @@ public abstract class StatisticsAspectSupport implements BeanFactoryAware, Initi
 
         Object returnValue = invokeOperation(invoker);
 
-        poolExecutor.execute(() -> {
+        executor.execute(() -> {
             // 解析数据
             DataToRpcParser parser = new DataToRpcParser();
             // TODO 解析数据

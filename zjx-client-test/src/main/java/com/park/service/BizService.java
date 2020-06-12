@@ -32,7 +32,7 @@ public interface BizService {
      * @param str    str
      * @return
      */
-    @ZjxStatistics(key = "userId", module = "video", isCountSelf = true, paramField = {"name", "height"}, tableField = {"table_name", "table_height"}, openStatus = {"status"}, tableStatus = {"table_status"})
+    @ZjxStatistics(key = "userId", module = "video", paramField = {"name", "height"}, tableField = {"table_name", "table_height"}, openStatus = {"status"}, tableStatus = {"table_status"})
     Data doService(String userId, Data data, String str);
 
 }

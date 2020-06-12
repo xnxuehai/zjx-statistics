@@ -25,11 +25,11 @@ public class CounterDTO implements Serializable {
     /**
      * 统计字段集合
      */
-    private List<TableFieldCount> tableFieldCount;
+    private List<BaseCount> tableFieldCount;
     /**
      * 状态字段集合
      */
-    private List<TableStatusCount> tableStatusCount;
+    private List<BaseCount> tableStatusCount;
 
     public Object getKey() {
         return key;
@@ -55,31 +55,30 @@ public class CounterDTO implements Serializable {
         this.countSelf = countSelf;
     }
 
-    public List<TableFieldCount> getTableFieldCount() {
+    public List<BaseCount> getTableFieldCount() {
         return tableFieldCount;
     }
 
-    public void setTableFieldCount(List<TableFieldCount> tableFieldCount) {
+    public void setTableFieldCount(List<BaseCount> tableFieldCount) {
         this.tableFieldCount = tableFieldCount;
     }
 
-    public List<TableStatusCount> getTableStatusCount() {
+    public List<BaseCount> getTableStatusCount() {
         return tableStatusCount;
     }
 
-    public void setTableStatusCount(List<TableStatusCount> tableStatusCount) {
+    public void setTableStatusCount(List<BaseCount> tableStatusCount) {
         this.tableStatusCount = tableStatusCount;
     }
 
     @Override
     public String toString() {
         return "CounterDTO{" +
-                "key='" + key + '\'' +
+                "key=" + key +
                 ", module='" + module + '\'' +
                 ", countSelf=" + countSelf +
                 ", tableFieldCount=" + tableFieldCount +
                 ", tableStatusCount=" + tableStatusCount +
                 '}';
     }
-
 }

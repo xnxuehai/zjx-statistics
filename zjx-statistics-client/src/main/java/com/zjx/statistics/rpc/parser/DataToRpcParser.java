@@ -1,9 +1,12 @@
 package com.zjx.statistics.rpc.parser;
 
 import com.zjx.statistics.interceptor.operation.AbstractStatisticsOperation;
+import com.zjx.statistics.rpc.dto.BaseCount;
 import com.zjx.statistics.rpc.dto.CounterDTO;
 import com.zjx.statistics.rpc.dto.TableFieldCount;
 import com.zjx.statistics.rpc.dto.TableStatusCount;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -16,6 +19,8 @@ import java.util.*;
  */
 public class DataToRpcParser {
 
+    Logger logger = LoggerFactory.getLogger(getClass());
+
     public List<CounterDTO> parser(Method method, Collection<AbstractStatisticsOperation> operations, Object[] args) {
         List<CounterDTO> counterDTOList = new ArrayList<>();
         // 循环每一个 operations 获取注解信息
@@ -27,47 +32,39 @@ public class DataToRpcParser {
     }
 
     private CounterDTO parser(Method method, AbstractStatisticsOperation operation, Object[] args) {
-
         CounterDTO counterDTO = new CounterDTO();
-        String key = operation.getKey();
-        String module = operation.getModule();
-        Boolean countSelf = operation.getCountSelf();
-        Set<String> paramField = operation.getParamField();
-        Set<String> tableField = operation.getTableField();
-        Set<String> openStatus = operation.getOpenStatus();
-        Set<String> tableStatus = operation.getTableStatus();
 
         // 解析 paramField、tableField
-        List<TableFieldCount> tableFieldCount = parserToTableFieldCountToList(method, paramField, tableField, args);
+        List<BaseCount> tableFieldCount = parserToCountToList(method, operation.getParamField(), operation.getTableField(), args);
 
         // 解析 openStatus、openStatus
-        List<TableStatusCount> tableStatusCount = parserTableStatusCountToList(method, openStatus, tableStatus, args);
+        List<BaseCount> tableStatusCount = parserToCountToList(method, operation.getOpenStatus(), operation.getTableStatus(), args);
 
-        counterDTO.setKey(parserKey(key, method, args));
-        counterDTO.setModule(module);
-        counterDTO.setCountSelf(countSelf == true ? 1 : 0);
+        counterDTO.setKey(parserKey(operation.getKey(), method, args));
+        counterDTO.setModule(operation.getModule());
+        counterDTO.setCountSelf(operation.getCountSelf() == true ? 1 : 0);
         counterDTO.setTableFieldCount(tableFieldCount);
         counterDTO.setTableStatusCount(tableStatusCount);
 
         return counterDTO;
     }
 
-
-    private List<TableFieldCount> parserToTableFieldCountToList(Method method, Set<String> paramField, Set<String> tableField, Object[] args) {
-        List<TableFieldCount> res = new ArrayList<>(paramField.size());
+    private List<BaseCount> parserToCountToList(Method method, Set<String> paramField, Set<String> tableField, Object[] args) {
+        List<BaseCount> res = new ArrayList<>(paramField.size());
         if (paramField.size() == 0) {
             return res;
         }
-
         if (paramField.size() != tableField.size()) {
-            System.out.println("注解 paramField 与 tableField 配置有误");
+            logger.info("注解配置有误,请检查注解配置！！！");
             return res;
         }
 
         List<String> paramFieldList = new ArrayList<>(paramField);
         List<String> tableFieldList = new ArrayList<>(tableField);
 
+        // 获取 目标方法上 所有的参数对象
         Parameter[] parameters = method.getParameters();
+
         for (int i = 0; i < parameters.length; i++) {
             if (isSystemType(parameters[i].getType())) {
                 TableFieldCount tableFieldCount = new TableFieldCount();
@@ -113,44 +110,6 @@ public class DataToRpcParser {
         return null;
     }
 
-
-    private List<TableStatusCount> parserTableStatusCountToList(Method method, Set<String> openStatus, Set<String> tableStatus, Object[] args) {
-        List<TableStatusCount> res = new ArrayList<>(openStatus.size());
-        if (openStatus.size() == 0) {
-            return res;
-        }
-
-        if (openStatus.size() != openStatus.size()) {
-            System.out.println("注解 paramField 与 tableField 配置有误");
-            return res;
-        }
-
-        List<String> paramFieldList = new ArrayList<>(openStatus);
-        List<String> tableFieldList = new ArrayList<>(tableStatus);
-
-        Parameter[] parameters = method.getParameters();
-        for (int i = 0; i < parameters.length; i++) {
-            if (isSystemType(parameters[i].getType())) {
-                TableStatusCount tableStatusCount = new TableStatusCount();
-                if (openStatus.contains(parameters[i].getName())) {
-                    tableStatusCount.setTableStatusName(tableFieldList.get(paramFieldList.indexOf(parameters[i].getName())));
-                    tableStatusCount.setStatusValue(args[i]);
-                }
-            } else {
-                Set<String> retainElement = getRetainElement(openStatus, parameters[i]);
-                for (String field : retainElement) {
-                    TableStatusCount tableStatusCount = new TableStatusCount();
-                    Object value = getObjectValueByReflection(parameters[i].getType(), field, args[i]);
-                    tableStatusCount.setTableStatusName(tableFieldList.get(paramFieldList.indexOf(field)));
-                    tableStatusCount.setStatusValue(value);
-                    res.add(tableStatusCount);
-                }
-            }
-        }
-
-        return res;
-    }
-
     /**
      * 返回 都包含的属性名称集合
      *
@@ -183,13 +142,17 @@ public class DataToRpcParser {
      */
     private Object getObjectValueByReflection(Class<?> cls, String fieldName, Object obj) {
         Object resValue = null;
-        try {
-            Field declaredField = cls.getDeclaredField(fieldName);
-            declaredField.setAccessible(true);
-            resValue = declaredField.get(obj);
+            try {
+                Field declaredField = cls.getDeclaredField(fieldName);
+                declaredField.setAccessible(true);
+                resValue = declaredField.get(obj);
         } catch (NoSuchFieldException e) {
+            logger.error("Statistics Client Reflection Object NoSuchFieldException", e);
+            // TODO 调用服务端接口进行异常日志持久化
             e.printStackTrace();
         } catch (IllegalAccessException e) {
+            logger.error("Statistics Client Reflection Object IllegalAccessException", e);
+            // TODO 调用服务端接口进行异常日志持久化
             e.printStackTrace();
         }
         return resValue;

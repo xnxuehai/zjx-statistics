@@ -8,7 +8,7 @@ import java.io.Serializable;
  * @author Aaron
  * @date 2020/6/11 5:50 下午
  */
-public class TableStatusCount implements Serializable {
+public class TableStatusCount extends BaseCount implements Serializable {
     /**
      * 数据库中的字段
      */
