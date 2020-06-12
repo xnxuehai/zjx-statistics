@@ -45,8 +45,8 @@ public class ZjxStatisticsConfiguration {
     @Bean
     public Executor statisticsThreadPoolExecutor() {
         ThreadPoolExecutor statisticsThreadPoolExecutor =
-                new ThreadPoolExecutor(30, 30, 60, TimeUnit.SECONDS,
-                        new LinkedBlockingQueue(300), new StatisticsThreadFactory("zjx-statistics-Thread"),
+                new ThreadPoolExecutor(50, 50, 60, TimeUnit.SECONDS,
+                        new LinkedBlockingQueue(300), new StatisticsThreadFactory("zjx-statistics-thread"),
                         new ThreadPoolExecutor.AbortPolicy());
         return statisticsThreadPoolExecutor;
     }

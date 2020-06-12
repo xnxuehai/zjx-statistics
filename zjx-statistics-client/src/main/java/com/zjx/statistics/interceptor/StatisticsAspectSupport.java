@@ -92,7 +92,7 @@ public abstract class StatisticsAspectSupport implements BeanFactoryAware, Initi
             // TODO 解析数据
             List<CounterDTO> counterDTO = parser.parser(method, operations, args);
             // TODO 发送数据到服务端
-            System.out.println("向服务端发送信息:" + counterDTO);
+            System.out.println(Thread.currentThread().getName() + ":向服务端发送信息:" + counterDTO);
         });
 
         return returnValue;

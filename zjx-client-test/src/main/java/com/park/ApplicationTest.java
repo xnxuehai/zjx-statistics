@@ -24,8 +24,14 @@ public class ApplicationTest {
 //
 //        bean.doServiceStatistics(new Data("Aaron", 20,174));
 
-        Data data = new Data("Aaron", 20, 174, 1);
-        data.setStatus(2);
-        bean.doService("2", data, "123456");
+        for (int i = 0; i < 1000000; i++) {
+            new Thread(() -> {
+                Data data = new Data("Aaron", 20, 174, 1);
+                data.setStatus(2);
+                bean.doService("2", data, "123456");
+            }).start();
+        }
+
+        applicationContext.close();
     }
 }
