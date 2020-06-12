@@ -6,6 +6,7 @@ import com.zjx.statistics.annotation.EnableZjxStatistics;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
+
 /**
  * @author Aaron
  * @date 2020/6/10 3:34 下午
@@ -24,7 +25,7 @@ public class ApplicationTest {
 //
 //        bean.doServiceStatistics(new Data("Aaron", 20,174));
 
-        for (int i = 0; i < 1000000; i++) {
+        for (int i = 0; i < 5; i++) {
             new Thread(() -> {
                 Data data = new Data("Aaron", 20, 174, 1);
                 data.setStatus(2);
@@ -34,4 +35,5 @@ public class ApplicationTest {
 
         applicationContext.close();
     }
+
 }

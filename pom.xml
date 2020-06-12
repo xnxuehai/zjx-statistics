@@ -13,6 +13,7 @@
     <modules>
         <module>zjx-statistics-client</module>
         <module>zjx-client-test</module>
+        <module>zjx-statistics-server</module>
     </modules>
 
     <properties>
@@ -22,6 +23,7 @@
         <data-redis.version>2.3.0.RELEASE</data-redis.version>
         <lettuce.version>5.3.0.RELEASE</lettuce.version>
         <fastjson.version>1.2.70</fastjson.version>
+        <slf-api.version>1.7.30</slf-api.version>
     </properties>
 
     <dependencyManagement>
@@ -39,24 +41,6 @@
             </dependency>
 
             <dependency>
-                <groupId>org.springframework.data</groupId>
-                <artifactId>spring-data-redis</artifactId>
-                <version>${data-redis.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>io.lettuce</groupId>
-                <artifactId>lettuce-core</artifactId>
-                <version>${lettuce.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>${fastjson.version}</version>
-            </dependency>
-
-            <dependency>
                 <groupId>com.zjx</groupId>
                 <artifactId>zjx-statistics-client</artifactId>
                 <version>${zjx-statistics.version}</version>
@@ -65,9 +49,8 @@
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
-                <version>1.7.30</version>
+                <version>${slf-api.version}</version>
             </dependency>
-
 
         </dependencies>
     </dependencyManagement>
