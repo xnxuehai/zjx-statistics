@@ -13,7 +13,7 @@ public class CounterDTO implements Serializable {
     /**
      * key 目前用 userId
      */
-    private String key;
+    private Object key;
     /**
      * 统计的模块
      */
@@ -31,11 +31,11 @@ public class CounterDTO implements Serializable {
      */
     private List<TableStatusCount> tableStatusCount;
 
-    public String getKey() {
+    public Object getKey() {
         return key;
     }
 
-    public void setKey(String key) {
+    public void setKey(Object key) {
         this.key = key;
     }
 

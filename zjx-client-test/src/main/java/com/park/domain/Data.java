@@ -6,52 +6,64 @@ package com.park.domain;
  */
 public class Data {
 
-	private String name;
+    private Integer userId;
 
-	private int age;
+    private String name;
 
-	private Integer height;
+    private int age;
 
-	public Data() {
+    private Integer height;
 
-	}
+    private Integer status;
 
-	public Data(String name, int age, Integer height) {
-		this.name = name;
-		this.age = age;
-		this.height = height;
-	}
+    public Data() {
 
-	public String getName() {
-		return name;
-	}
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public Data(String name, int age, Integer height, Integer userId) {
+        this.name = name;
+        this.age = age;
+        this.height = height;
+        this.userId = userId;
+    }
 
-	public int getAge() {
-		return age;
-	}
+    public Integer getUserId() {
+        return userId;
+    }
 
-	public void setAge(int age) {
-		this.age = age;
-	}
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
 
-	public Integer getHeight() {
-		return height;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setHeight(Integer height) {
-		this.height = height;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	@Override
-	public String toString() {
-		return "Data{" +
-				"name='" + name + '\'' +
-				", age=" + age +
-				", height=" + height +
-				'}';
-	}
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public Integer getHeight() {
+        return height;
+    }
+
+    public void setHeight(Integer height) {
+        this.height = height;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 }

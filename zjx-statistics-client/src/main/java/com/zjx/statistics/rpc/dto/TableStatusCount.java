@@ -16,7 +16,7 @@ public class TableStatusCount implements Serializable {
     /**
      * 需要统计的值
      */
-    private Integer statusValue;
+    private Object statusValue;
 
     public String getTableStatusName() {
         return tableStatusName;
@@ -26,11 +26,11 @@ public class TableStatusCount implements Serializable {
         this.tableStatusName = tableStatusName;
     }
 
-    public Integer getStatusValue() {
+    public Object getStatusValue() {
         return statusValue;
     }
 
-    public void setStatusValue(Integer statusValue) {
+    public void setStatusValue(Object statusValue) {
         this.statusValue = statusValue;
     }
 
