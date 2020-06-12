@@ -32,9 +32,8 @@ public abstract class StatisticsAspectSupport implements BeanFactoryAware, Initi
     /**
      * 构建线程池
      */
-    private ThreadPoolExecutor poolExecutor = new ThreadPoolExecutor(16, 16, 60, TimeUnit.SECONDS,
-            new LinkedBlockingQueue(), new MyThreadFactory("Aaron-Thread"), new ThreadPoolExecutor.AbortPolicy());
-
+    private ThreadPoolExecutor poolExecutor = new ThreadPoolExecutor(30, 30, 60, TimeUnit.SECONDS,
+            new LinkedBlockingQueue(), new MyThreadFactory("Zjx-statistics-Thread"), new ThreadPoolExecutor.AbortPolicy());
 
     /**
      * 构建线程池工厂
@@ -118,13 +117,12 @@ public abstract class StatisticsAspectSupport implements BeanFactoryAware, Initi
         // TODO 根据业务情况是同步处理还是异步处理！
         // TODO 发生异常处理措施！
 
-
         Object returnValue = invokeOperation(invoker);
 
         poolExecutor.execute(() -> {
             // 解析数据
             DataToRpcParser parser = new DataToRpcParser();
-            // TODO 解析数据和发送数据异步处理
+            // TODO 解析数据
             List<CounterDTO> counterDTO = parser.parser(method, operations, args);
             // TODO 发送数据到服务端
             System.out.println("向服务端发送信息:" + counterDTO);
