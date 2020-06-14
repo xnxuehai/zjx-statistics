@@ -1,4 +1,4 @@
-package com.zjx.statistics.rpc.dto;
+package com.zjx.statistics.dto;
 
 import java.io.Serializable;
 

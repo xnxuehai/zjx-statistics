@@ -31,5 +31,10 @@
             <artifactId>slf4j-api</artifactId>
             <optional>true</optional>
         </dependency>
+
+        <dependency>
+            <groupId>com.zjx</groupId>
+            <artifactId>zjx-statistics-api</artifactId>
+        </dependency>
     </dependencies>
 </project>

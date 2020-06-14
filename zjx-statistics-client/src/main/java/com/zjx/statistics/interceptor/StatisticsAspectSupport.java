@@ -1,7 +1,7 @@
 package com.zjx.statistics.interceptor;
 
+import com.zjx.statistics.dto.CounterDTO;
 import com.zjx.statistics.interceptor.operation.AbstractStatisticsOperation;
-import com.zjx.statistics.rpc.dto.CounterDTO;
 import com.zjx.statistics.rpc.parser.DataToRpcParser;
 import org.springframework.aop.framework.AopProxyUtils;
 import org.springframework.beans.BeansException;

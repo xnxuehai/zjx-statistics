@@ -1,10 +1,9 @@
 package com.zjx.statistics.rpc.parser;
 
+import com.zjx.statistics.dto.BaseCount;
+import com.zjx.statistics.dto.CounterDTO;
+import com.zjx.statistics.dto.TableFieldCount;
 import com.zjx.statistics.interceptor.operation.AbstractStatisticsOperation;
-import com.zjx.statistics.rpc.dto.BaseCount;
-import com.zjx.statistics.rpc.dto.CounterDTO;
-import com.zjx.statistics.rpc.dto.TableFieldCount;
-import com.zjx.statistics.rpc.dto.TableStatusCount;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
