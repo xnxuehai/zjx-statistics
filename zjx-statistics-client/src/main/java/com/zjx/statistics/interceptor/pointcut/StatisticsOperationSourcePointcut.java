@@ -1,11 +1,10 @@
 package com.zjx.statistics.interceptor.pointcut;
 
 import com.zjx.statistics.interceptor.StatisticsOperationSource;
-import org.springframework.aop.ClassFilter;
 import org.springframework.aop.support.StaticMethodMatcherPointcut;
-import org.springframework.cache.CacheManager;
 import org.springframework.lang.Nullable;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
@@ -18,9 +17,6 @@ import java.lang.reflect.Method;
  */
 public abstract class StatisticsOperationSourcePointcut extends StaticMethodMatcherPointcut implements Serializable {
 
-    protected StatisticsOperationSourcePointcut() {
-        setClassFilter(new StatisticsOperationSourceClassFilter());
-    }
 
     @Override
     public boolean matches(Method method, Class<?> aClass) {
@@ -28,17 +24,26 @@ public abstract class StatisticsOperationSourcePointcut extends StaticMethodMatc
         return (cas != null && !CollectionUtils.isEmpty(cas.getStatisticsOperations(method, aClass)));
     }
 
-
-    private class StatisticsOperationSourceClassFilter implements ClassFilter {
-
-        @Override
-        public boolean matches(Class<?> clazz) {
-            if (CacheManager.class.isAssignableFrom(clazz)) {
-                return false;
-            }
-            StatisticsOperationSource cas = getStatisticsOperationSource();
-            return (cas == null || cas.isCandidateClass(clazz));
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
         }
+        if (!(other instanceof StatisticsOperationSourcePointcut)) {
+            return false;
+        }
+        StatisticsOperationSourcePointcut otherPc = (StatisticsOperationSourcePointcut) other;
+        return ObjectUtils.nullSafeEquals(getStatisticsOperationSource(), otherPc.getStatisticsOperationSource());
+    }
+
+    @Override
+    public int hashCode() {
+        return StatisticsOperationSourcePointcut.class.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getName() + ": " + getStatisticsOperationSource();
     }
 
     /**

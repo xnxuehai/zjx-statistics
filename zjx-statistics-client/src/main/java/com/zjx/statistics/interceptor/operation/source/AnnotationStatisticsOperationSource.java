@@ -39,27 +39,17 @@ public class AnnotationStatisticsOperationSource extends AbstractStatisticsOpera
     }
 
     @Override
-    public boolean isCandidateClass(Class<?> targetClass) {
-        for (StatisticsAnnotationParser parser : this.annotationParsers) {
-            if (parser.isCandidateClass(targetClass)) {
-                return true;
-            }
-        }
-        return false;
+    protected Collection<AbstractStatisticsOperation> findStatisticsOperations(Class<?> clazz) {
+        return determineStatisticsOperations(parser -> parser.parseStatisticsAnnotations(clazz));
     }
 
     @Override
-    protected Collection<AbstractStatisticsOperation> findCacheOperations(Class<?> clazz) {
-        return determineCacheOperations(parser -> parser.parseCacheAnnotations(clazz));
-    }
-
-    @Override
-    protected Collection<AbstractStatisticsOperation> findCacheOperations(Method method) {
-        return determineCacheOperations(parser -> parser.parseCacheAnnotations(method));
+    protected Collection<AbstractStatisticsOperation> findStatisticsOperations(Method method) {
+        return determineStatisticsOperations(parser -> parser.parseStatisticsAnnotations(method));
     }
 
     @Nullable
-    protected Collection<AbstractStatisticsOperation> determineCacheOperations(StatisticsOperationProvider provider) {
+    protected Collection<AbstractStatisticsOperation> determineStatisticsOperations(StatisticsOperationProvider provider) {
         Collection<AbstractStatisticsOperation> ops = null;
         for (StatisticsAnnotationParser parser : this.annotationParsers) {
             Collection<AbstractStatisticsOperation> annOps = provider.getStatisticsOperations(parser);

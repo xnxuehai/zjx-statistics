@@ -13,15 +13,6 @@ import java.util.Collection;
  * @date 2020/6/10 11:57 上午
  */
 public interface StatisticsAnnotationParser {
-    /**
-     * 是否支持解析
-     *
-     * @param clazz Class
-     * @return
-     */
-    default boolean isCandidateClass(Class<?> clazz) {
-        return true;
-    }
 
     /**
      * 根据 Class 获取统计操作
@@ -30,7 +21,7 @@ public interface StatisticsAnnotationParser {
      * @return
      */
     @Nullable
-    Collection<AbstractStatisticsOperation> parseCacheAnnotations(Class<?> clazz);
+    Collection<AbstractStatisticsOperation> parseStatisticsAnnotations(Class<?> clazz);
 
     /**
      * 根据 Method 获取统计操作
@@ -39,5 +30,7 @@ public interface StatisticsAnnotationParser {
      * @return
      */
     @Nullable
-    Collection<AbstractStatisticsOperation> parseCacheAnnotations(Method method);
+    Collection<AbstractStatisticsOperation> parseStatisticsAnnotations(Method method);
+
+
 }

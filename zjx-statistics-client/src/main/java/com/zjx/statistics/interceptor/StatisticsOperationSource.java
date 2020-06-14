@@ -15,16 +15,6 @@ import java.util.Collection;
 public interface StatisticsOperationSource {
 
     /**
-     * 判断给定的类是否是统计操作的候选类
-     *
-     * @param targetClass
-     * @return
-     */
-    default boolean isCandidateClass(Class<?> targetClass) {
-        return true;
-    }
-
-    /**
      * 通过 method 和 class 获取统计操作的集合
      *
      * @param method      Method

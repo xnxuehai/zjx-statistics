@@ -24,8 +24,6 @@ public class ApplicationTest {
 
         BizService bean = applicationContext.getBean(BizService.class);
 
-        Executor executor = applicationContext.getBean(Executor.class);
-
 //        bean.doService("not use proxy");
 //
 //        bean.doServiceStatistics(new Data("Aaron", 20,174));

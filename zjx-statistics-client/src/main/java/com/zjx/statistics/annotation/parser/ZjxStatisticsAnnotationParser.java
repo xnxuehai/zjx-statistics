@@ -33,23 +33,19 @@ public class ZjxStatisticsAnnotationParser implements StatisticsAnnotationParser
         STATISTICS_OPERATION_ANNOTATIONS.add(ZjxStatistics.class);
     }
 
+
     @Override
-    public boolean isCandidateClass(Class<?> targetClass) {
-        return AnnotationUtils.isCandidateClass(targetClass, STATISTICS_OPERATION_ANNOTATIONS);
+    public Collection<AbstractStatisticsOperation> parseStatisticsAnnotations(Class<?> clazz) {
+        return parseStatisticsAnnotationsReal(clazz);
     }
 
     @Override
-    public Collection<AbstractStatisticsOperation> parseCacheAnnotations(Class<?> clazz) {
-        return parseStatisticsAnnotations(clazz);
-    }
-
-    @Override
-    public Collection<AbstractStatisticsOperation> parseCacheAnnotations(Method method) {
-        return parseStatisticsAnnotations(method);
+    public Collection<AbstractStatisticsOperation> parseStatisticsAnnotations(Method method) {
+        return parseStatisticsAnnotationsReal(method);
     }
 
     @Nullable
-    private Collection<AbstractStatisticsOperation> parseStatisticsAnnotations(AnnotatedElement ae) {
+    private Collection<AbstractStatisticsOperation> parseStatisticsAnnotationsReal(AnnotatedElement ae) {
         Collection<AbstractStatisticsOperation> ops = parseCacheAnnotations(ae, false);
         if (ops != null && ops.size() > 1) {
             Collection<AbstractStatisticsOperation> localOps = parseCacheAnnotations(ae, true);

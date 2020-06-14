@@ -59,23 +59,23 @@ public abstract class AbstractStatisticsOperationSource implements StatisticsOpe
         // 获取 Method
         Method specificMethod = AopUtils.getMostSpecificMethod(method, targetClass);
 
-        Collection<AbstractStatisticsOperation> opDef = findCacheOperations(specificMethod);
+        Collection<AbstractStatisticsOperation> opDef = findStatisticsOperations(specificMethod);
         if (opDef != null) {
             return opDef;
         }
 
-        opDef = findCacheOperations(specificMethod.getDeclaringClass());
+        opDef = findStatisticsOperations(specificMethod.getDeclaringClass());
         if (opDef != null && ClassUtils.isUserLevelMethod(method)) {
             return opDef;
         }
 
         if (specificMethod != method) {
-            opDef = findCacheOperations(method);
+            opDef = findStatisticsOperations(method);
             if (opDef != null) {
                 return opDef;
             }
 
-            opDef = findCacheOperations(method.getDeclaringClass());
+            opDef = findStatisticsOperations(method.getDeclaringClass());
             if (opDef != null && ClassUtils.isUserLevelMethod(method)) {
                 return opDef;
             }
@@ -92,7 +92,7 @@ public abstract class AbstractStatisticsOperationSource implements StatisticsOpe
      * @return
      */
     @Nullable
-    protected abstract Collection<AbstractStatisticsOperation> findCacheOperations(Class<?> clazz);
+    protected abstract Collection<AbstractStatisticsOperation> findStatisticsOperations(Class<?> clazz);
 
     /**
      * 交给子类来实现具体的方法
@@ -101,5 +101,5 @@ public abstract class AbstractStatisticsOperationSource implements StatisticsOpe
      * @return
      */
     @Nullable
-    protected abstract Collection<AbstractStatisticsOperation> findCacheOperations(Method method);
+    protected abstract Collection<AbstractStatisticsOperation> findStatisticsOperations(Method method);
 }
