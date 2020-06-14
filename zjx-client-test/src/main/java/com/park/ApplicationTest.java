@@ -5,6 +5,7 @@ import com.park.service.BizService;
 import com.zjx.statistics.annotation.EnableZjxStatistics;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;

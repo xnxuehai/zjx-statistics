@@ -1,7 +1,7 @@
 package com.zjx.statistics.annotation;
 
 import com.zjx.statistics.annotation.config.ZjxStatisticsConfiguration;
-import com.zjx.statistics.annotation.config.ZjxStatisticsConfigurationSelector;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;
@@ -15,7 +15,9 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Import(value = {ZjxStatisticsConfigurationSelector.class, ZjxStatisticsConfiguration.class})
+//@Import(value = {ZjxStatisticsConfigurationSelector.class, ZjxStatisticsConfiguration.class})
+@Import(value = ZjxStatisticsConfiguration.class)
+@EnableAspectJAutoProxy
 public @interface EnableZjxStatistics {
 
 }
