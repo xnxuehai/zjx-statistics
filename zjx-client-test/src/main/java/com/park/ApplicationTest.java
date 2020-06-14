@@ -6,6 +6,9 @@ import com.zjx.statistics.annotation.EnableZjxStatistics;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.TimeUnit;
+
 
 /**
  * @author Aaron
@@ -21,6 +24,8 @@ public class ApplicationTest {
 
         BizService bean = applicationContext.getBean(BizService.class);
 
+        Executor executor = applicationContext.getBean(Executor.class);
+
 //        bean.doService("not use proxy");
 //
 //        bean.doServiceStatistics(new Data("Aaron", 20,174));
@@ -31,6 +36,12 @@ public class ApplicationTest {
                 data.setStatus(2);
                 bean.doService("2", data, "123456");
             }).start();
+        }
+
+        try {
+            TimeUnit.SECONDS.sleep(3);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
         applicationContext.close();
