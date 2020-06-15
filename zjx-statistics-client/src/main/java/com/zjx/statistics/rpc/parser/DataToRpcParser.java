@@ -3,6 +3,7 @@ package com.zjx.statistics.rpc.parser;
 import com.zjx.statistics.dto.BaseCount;
 import com.zjx.statistics.dto.CounterDTO;
 import com.zjx.statistics.dto.TableFieldCount;
+import com.zjx.statistics.dto.TableStatusCount;
 import com.zjx.statistics.interceptor.operation.AbstractStatisticsOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,10 +35,10 @@ public class DataToRpcParser {
         CounterDTO counterDTO = new CounterDTO();
 
         // 解析 paramField、tableField
-        List<BaseCount> tableFieldCount = parserToCountToList(method, operation.getParamField(), operation.getTableField(), args);
+        List<TableFieldCount> tableFieldCount = (List<TableFieldCount>) parserToCountToList(method, operation.getParamField(), operation.getTableField(), args);
 
         // 解析 openStatus、openStatus
-        List<BaseCount> tableStatusCount = parserToCountToList(method, operation.getOpenStatus(), operation.getTableStatus(), args);
+        List<TableStatusCount> tableStatusCount = (List<TableStatusCount>) parserToCountToList(method, operation.getOpenStatus(), operation.getTableStatus(), args);
 
         counterDTO.setKey(parserKey(operation.getKey(), method, args));
         counterDTO.setModule(operation.getModule());
@@ -48,8 +49,8 @@ public class DataToRpcParser {
         return counterDTO;
     }
 
-    private List<BaseCount> parserToCountToList(Method method, Set<String> paramField, Set<String> tableField, Object[] args) {
-        List<BaseCount> res = new ArrayList<>(paramField.size());
+    private List<?> parserToCountToList(Method method, Set<String> paramField, Set<String> tableField, Object[] args) {
+        List<Object> res = new ArrayList<>(paramField.size());
         if (paramField.size() == 0) {
             return res;
         }
@@ -141,10 +142,10 @@ public class DataToRpcParser {
      */
     private Object getObjectValueByReflection(Class<?> cls, String fieldName, Object obj) {
         Object resValue = null;
-            try {
-                Field declaredField = cls.getDeclaredField(fieldName);
-                declaredField.setAccessible(true);
-                resValue = declaredField.get(obj);
+        try {
+            Field declaredField = cls.getDeclaredField(fieldName);
+            declaredField.setAccessible(true);
+            resValue = declaredField.get(obj);
         } catch (NoSuchFieldException e) {
             logger.error("Statistics Client Reflection Object NoSuchFieldException", e);
             // TODO 调用服务端接口进行异常日志持久化
