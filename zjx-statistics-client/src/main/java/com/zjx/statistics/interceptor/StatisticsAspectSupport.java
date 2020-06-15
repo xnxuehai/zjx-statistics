@@ -1,11 +1,15 @@
 package com.zjx.statistics.interceptor;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.zjx.statistics.dto.CounterDTO;
+import com.zjx.statistics.facade.ReceiveInfo;
 import com.zjx.statistics.interceptor.operation.AbstractStatisticsOperation;
 import com.zjx.statistics.rpc.parser.DataToRpcParser;
 import org.springframework.aop.framework.AopProxyUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.*;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
@@ -22,24 +26,19 @@ import java.util.concurrent.*;
  * @author Aaron
  * @date 2020/6/10 10:54 上午
  */
-public abstract class StatisticsAspectSupport implements BeanFactoryAware, InitializingBean, SmartInitializingSingleton {
+public abstract class StatisticsAspectSupport implements InitializingBean, SmartInitializingSingleton {
 
     @Nullable
     private StatisticsOperationSource statisticsOperationSource;
-    @Nullable
-    private BeanFactory beanFactory;
 
     @Resource(name = "statisticsThreadPoolExecutor")
     private Executor executor;
 
+    @Reference
+    private ReceiveInfo receiveInfo;
 
     public void setCacheOperationSource(@Nullable StatisticsOperationSource statisticsOperationSource) {
         this.statisticsOperationSource = statisticsOperationSource;
-    }
-
-    @Override
-    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-        this.beanFactory = beanFactory;
     }
 
     @Override
@@ -93,6 +92,9 @@ public abstract class StatisticsAspectSupport implements BeanFactoryAware, Initi
             List<CounterDTO> counterDTO = parser.parser(method, operations, args);
             // TODO 发送数据到服务端
             System.out.println(Thread.currentThread().getName() + ":向服务端发送信息:" + counterDTO);
+            for (CounterDTO dto : counterDTO) {
+                receiveInfo.receiveInfo(dto);
+            }
         });
 
         return returnValue;
