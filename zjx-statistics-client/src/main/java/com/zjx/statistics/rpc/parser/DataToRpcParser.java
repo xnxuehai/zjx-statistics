@@ -35,10 +35,10 @@ public class DataToRpcParser {
         CounterDTO counterDTO = new CounterDTO();
 
         // 解析 paramField、tableField
-        List<TableFieldCount> tableFieldCount = (List<TableFieldCount>) parserToCountToList(method, operation.getParamField(), operation.getTableField(), args);
+        List<TableFieldCount> tableFieldCount = (List<TableFieldCount>) parserToCountToList(method, operation.getParamField(), operation.getTableField(), args, false);
 
         // 解析 openStatus、openStatus
-        List<TableStatusCount> tableStatusCount = (List<TableStatusCount>) parserToCountToList(method, operation.getOpenStatus(), operation.getTableStatus(), args);
+        List<TableStatusCount> tableStatusCount = (List<TableStatusCount>) parserToCountToList(method, operation.getOpenStatus(), operation.getTableStatus(), args, true);
 
         counterDTO.setKey(parserKey(operation.getKey(), method, args));
         counterDTO.setModule(operation.getModule());
@@ -49,7 +49,7 @@ public class DataToRpcParser {
         return counterDTO;
     }
 
-    private List<?> parserToCountToList(Method method, Set<String> paramField, Set<String> tableField, Object[] args) {
+    private List<?> parserToCountToList(Method method, Set<String> paramField, Set<String> tableField, Object[] args, boolean isStatus) {
         List<Object> res = new ArrayList<>(paramField.size());
         if (paramField.size() == 0) {
             return res;
@@ -67,19 +67,34 @@ public class DataToRpcParser {
 
         for (int i = 0; i < parameters.length; i++) {
             if (isSystemType(parameters[i].getType())) {
-                TableFieldCount tableFieldCount = new TableFieldCount();
-                if (paramField.contains(parameters[i].getName())) {
-                    tableFieldCount.setTableFieldName(tableFieldList.get(paramFieldList.indexOf(parameters[i].getName())));
-                    tableFieldCount.setFieldCount(args[i]);
+                if (isStatus) {
+                    TableStatusCount tableStatusCount = new TableStatusCount();
+                    if (paramField.contains(parameters[i].getName())) {
+                        tableStatusCount.setTableStatusName(tableFieldList.get(paramFieldList.indexOf(parameters[i].getName())));
+                        tableStatusCount.setStatusValue(args[i]);
+                    }
+                } else {
+                    TableFieldCount tableFieldCount = new TableFieldCount();
+                    if (paramField.contains(parameters[i].getName())) {
+                        tableFieldCount.setTableFieldName(tableFieldList.get(paramFieldList.indexOf(parameters[i].getName())));
+                        tableFieldCount.setFieldCount(args[i]);
+                    }
                 }
             } else {
                 Set<String> retainElement = getRetainElement(paramField, parameters[i]);
                 for (String field : retainElement) {
-                    TableFieldCount tableFieldCount = new TableFieldCount();
                     Object value = getObjectValueByReflection(parameters[i].getType(), field, args[i]);
-                    tableFieldCount.setTableFieldName(tableFieldList.get(paramFieldList.indexOf(field)));
-                    tableFieldCount.setFieldCount(value);
-                    res.add(tableFieldCount);
+                    if (isStatus) {
+                        TableStatusCount tableStatusCount = new TableStatusCount();
+                        tableStatusCount.setTableStatusName(tableFieldList.get(paramFieldList.indexOf(field)));
+                        tableStatusCount.setStatusValue(value);
+                        res.add(tableStatusCount);
+                    } else {
+                        TableFieldCount tableFieldCount = new TableFieldCount();
+                        tableFieldCount.setTableFieldName(tableFieldList.get(paramFieldList.indexOf(field)));
+                        tableFieldCount.setFieldCount(value);
+                        res.add(tableFieldCount);
+                    }
                 }
             }
         }
