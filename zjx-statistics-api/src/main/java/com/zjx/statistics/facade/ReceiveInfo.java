@@ -22,5 +22,4 @@ public interface ReceiveInfo {
      * @param medal      medal
      */
     void receiveInfo(Integer userId, Integer experience, Integer medal);
-
 }

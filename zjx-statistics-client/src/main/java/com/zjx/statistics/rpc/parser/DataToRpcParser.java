@@ -1,6 +1,5 @@
 package com.zjx.statistics.rpc.parser;
 
-import com.zjx.statistics.dto.BaseCount;
 import com.zjx.statistics.dto.CounterDTO;
 import com.zjx.statistics.dto.TableFieldCount;
 import com.zjx.statistics.dto.TableStatusCount;

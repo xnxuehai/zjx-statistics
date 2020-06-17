@@ -7,6 +7,8 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 
@@ -27,21 +29,22 @@ public class ApplicationTest {
 
 //        bean.doService("not use proxy");
 //
-//        bean.doServiceStatistics(new Data("Aaron", 20,174));
+        Map<String, String> paramMap = new HashMap<>();
+        bean.doServiceStatistics(paramMap, 1);
 
-        for (int i = 0; i < 5; i++) {
-            new Thread(() -> {
-                Data data = new Data("Aaron", 20, 174, 1);
-                data.setStatus(2);
-                bean.doService("2", data, "123456");
-            }).start();
-        }
-
-        try {
-            TimeUnit.SECONDS.sleep(3);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        for (int i = 0; i < 5; i++) {
+//            new Thread(() -> {
+//                Data data = new Data("Aaron", 20, 174, 1);
+//                data.setStatus(2);
+//                bean.doService("2", data, "123456");
+//            }).start();
+//        }
+//
+//        try {
+//            TimeUnit.SECONDS.sleep(3);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
 
         applicationContext.close();
     }
