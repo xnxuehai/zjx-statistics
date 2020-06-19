@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zjx.mapper.StatisticsOfDayMapper">
+    <resultMap id="BaseResultMap" type="com.zjx.domain.StatisticsOfDay">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="users_id" property="usersId" jdbcType="INTEGER"/>
+        <result column="users_study_record_counter" property="usersStudyRecordCounter" jdbcType="INTEGER"/>
+        <result column="user_study_wiki_video_counter" property="userStudyWikiVideoCounter" jdbcType="INTEGER"/>
+        <result column="user_dub_video_record_counter" property="userDubVideoRecordCounter" jdbcType="INTEGER"/>
+        <result column="users_study_record_duration" property="usersStudyRecordDuration" jdbcType="INTEGER"/>
+        <result column="user_study_wiki_video_duration" property="userStudyWikiVideoDuration" jdbcType="INTEGER"/>
+        <result column="user_dub_video_record_duration" property="userDubVideoRecordDuration" jdbcType="INTEGER"/>
+        <result column="chapter_user_dub_counter" property="chapterUserDubCounter" jdbcType="INTEGER"/>
+        <result column="chapter_user_dub_score" property="chapterUserDubScore" jdbcType="INTEGER"/>
+        <result column="users_question_record_counter" property="usersQuestionRecordCounter" jdbcType="INTEGER"/>
+        <result column="users_question_record_1" property="usersQuestionRecord1" jdbcType="INTEGER"/>
+        <result column="users_question_record_0" property="usersQuestionRecord0" jdbcType="INTEGER"/>
+        <result column="user_dub_counter" property="userDubCounter" jdbcType="INTEGER"/>
+        <result column="user_dub_thumb_no" property="userDubThumbNo" jdbcType="INTEGER"/>
+        <result column="message_task_counter" property="messageTaskCounter" jdbcType="INTEGER"/>
+        <result column="message_task_1" property="messageTask1" jdbcType="INTEGER"/>
+        <result column="message_task_0" property="messageTask0" jdbcType="INTEGER"/>
+        <result column="count_date" property="countDate" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="DATE"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.zjx.domain.StatisticsOfDay">
+          INSERT INTO statistics_of_day
+            (
+              users_id,
+              users_study_record_counter,
+              user_study_wiki_video_counter,
+              user_dub_video_record_counter,
+              users_study_record_duration,
+              user_study_wiki_video_duration,
+              user_dub_video_record_duration,
+              chapter_user_dub_counter,
+              chapter_user_dub_score,
+              users_question_record_counter,
+              users_question_record_1,
+              users_question_record_0,
+              user_dub_counter,
+              user_dub_thumb_no,
+              message_task_counter,
+              message_task_1,
+              message_task_0,
+              count_date
+              )
+           VALUES
+              (
+                #{usersId},#{usersStudyRecordCounter},#{userStudyWikiVideoCounter},#{userDubVideoRecordCounter},#{usersStudyRecordDuration}
+                ,#{userStudyWikiVideoDuration},#{userDubVideoRecordDuration},#{chapterUserDubCounter}
+                ,#{chapterUserDubScore},#{usersQuestionRecordCounter},#{usersQuestionRecord1},#{usersQuestionRecord0},#{userDubCounter}
+                ,#{userDubThumbNo},#{messageTaskCounter},#{messageTask1},#{messageTask0},#{countDate}
+              )
+    </insert>
+
+</mapper>
