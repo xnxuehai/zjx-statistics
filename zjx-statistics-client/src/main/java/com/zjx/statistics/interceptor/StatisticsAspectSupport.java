@@ -5,6 +5,8 @@ import com.zjx.statistics.dto.CounterDTO;
 import com.zjx.statistics.facade.ReceiveInfo;
 import com.zjx.statistics.interceptor.operation.AbstractStatisticsOperation;
 import com.zjx.statistics.rpc.parser.DataToRpcParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.AopProxyUtils;
 import org.springframework.beans.factory.*;
 import org.springframework.lang.Nullable;
@@ -23,7 +25,9 @@ import java.util.concurrent.*;
  * @author Aaron
  * @date 2020/6/10 10:54 上午
  */
+
 public abstract class StatisticsAspectSupport implements InitializingBean, SmartInitializingSingleton {
+    private static final Logger log = LoggerFactory.getLogger(StatisticsAspectSupport.class);
 
     @Nullable
     private StatisticsOperationSource statisticsOperationSource;
@@ -57,7 +61,7 @@ public abstract class StatisticsAspectSupport implements InitializingBean, Smart
     @Nullable
     protected Object execute(StatisticsOperationInvoker invoker, Object target, Method method, Object[] args) {
         // Check whether aspect is enabled (to cope with cases where the AJ is pulled in automatically)
-        // if (this.initialized) { 没懂啥意思，以后思考。
+        // if (this.initialized) { TODO 以后思考,需不需要实现。
         if (true) {
             Class<?> targetClass = getTargetClass(target);
             StatisticsOperationSource statisticsOperationSource = getStatisticsOperationSource();
@@ -85,10 +89,10 @@ public abstract class StatisticsAspectSupport implements InitializingBean, Smart
         executor.execute(() -> {
             // 解析数据
             DataToRpcParser parser = new DataToRpcParser();
-            // TODO 解析数据
+            // TODO 解析数据, 目前先这个抽象，后期迭代。
             List<CounterDTO> counterDTO = parser.parser(method, operations, args);
-            // TODO 发送数据到服务端
-            System.out.println(Thread.currentThread().getName() + ":向服务端发送信息:" + counterDTO);
+            // 发送数据到服务端
+            log.info("[{}] send statistics server data : {}", Thread.currentThread().getName(), counterDTO);
             for (CounterDTO dto : counterDTO) {
                 receiveInfo.receiveInfo(dto);
             }
