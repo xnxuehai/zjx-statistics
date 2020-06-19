@@ -28,13 +28,13 @@ public class StringUtil {
             char c = str.charAt(i);
             if (c == UNDERLINE) {
                 flag = true;
-                //标志设置为true,跳过
+                // 标志设置为true,跳过
                 continue;
             } else {
                 if (flag == true) {
-                    //表示当前字符前面是"_" ,当前字符转大写
+                    // 表示当前字符前面是"_" ,当前字符转大写
                     sb.append(Character.toUpperCase(str.charAt(i)));
-                    //重置标识
+                    // 重置标识
                     flag = false;
                 } else {
                     sb.append(Character.toLowerCase(str.charAt(i)));

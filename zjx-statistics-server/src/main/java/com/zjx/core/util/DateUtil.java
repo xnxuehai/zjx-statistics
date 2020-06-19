@@ -41,7 +41,7 @@ public class DateUtil {
      */
     private static DateTimeFormatter createCacheFormatter(String pattern) {
         if (pattern == null || pattern.length() == 0) {
-            throw new IllegalArgumentException("Invalid pattern specification");
+            throw new IllegalArgumentException("无效的模式匹配...");
         }
         DateTimeFormatter formatter = FORMATTER_CACHE.get(pattern);
         if (formatter == null) {

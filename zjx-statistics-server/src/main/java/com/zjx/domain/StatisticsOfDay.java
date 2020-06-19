@@ -10,8 +10,17 @@ import java.util.Date;
  */
 @Data
 public class StatisticsOfDay {
+    /**
+     * 唯一标识
+     */
     private Integer id;
+    /**
+     * 用户id
+     */
     private Integer usersId;
+    /**
+     * TODO 以下字段注释 确定后再补
+     */
     private Integer usersStudyRecordCounter;
     private Integer userStudyWikiVideoCounter;
     private Integer userDubVideoRecordCounter;

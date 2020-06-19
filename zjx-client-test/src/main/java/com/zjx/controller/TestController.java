@@ -1,13 +1,13 @@
 package com.zjx.controller;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.zjx.domain.Data;
 import com.zjx.service.TestBizService;
+import com.zjx.statistics.facade.ReceiveInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 
 /**
@@ -20,19 +20,18 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/test")
 public class TestController {
 
-    private HttpServletRequest request;
-    private HttpServletResponse servletResponse;
-
     @Resource
     private TestBizService testBizService;
 
-    @ModelAttribute
-    public void init(HttpServletRequest request, HttpServletResponse servletResponse) {
-        this.request = request;
-        this.servletResponse = servletResponse;
-    }
+    @Reference
+    private ReceiveInfo receiveInfo;
 
-
+    /**
+     * 一般统计数据测试
+     *
+     * @param data 测试数据
+     * @return
+     */
     @PostMapping("/mockCountData")
     public Data mockCountData(@RequestBody Data data) {
         log.info("paramMap:{}", data);
@@ -67,4 +66,22 @@ public class TestController {
         return res;
     }
 
+
+    /**
+     * 用户排名测试
+     *
+     * @param userId     用户id
+     * @param experience 经验值
+     * @param medal      奖章
+     * @return
+     */
+    @GetMapping("/mockUserSort/{userId}/{experience}/{medal}")
+    public String mockUserSort(@PathVariable("userId") Integer userId
+            , @PathVariable("experience") Integer experience
+            , @PathVariable("medal") Integer medal) {
+        log.info("接收数据 userId:{},experience:{},medal:{}", userId, experience, medal);
+        receiveInfo.receiveInfo(userId, experience, medal);
+
+        return "SUCCESS";
+    }
 }

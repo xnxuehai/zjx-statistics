@@ -18,6 +18,7 @@ public class CarryUtil {
      * 高低位 的位数 限制
      */
     private static final int BIT_SINGLE = 24;
+
     private static final int BIT = 48;
 
     private static final String ZERO = "0";
