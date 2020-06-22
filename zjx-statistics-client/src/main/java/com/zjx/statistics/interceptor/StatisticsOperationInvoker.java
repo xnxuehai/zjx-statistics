@@ -8,7 +8,12 @@ package com.zjx.statistics.interceptor;
  */
 @FunctionalInterface
 public interface StatisticsOperationInvoker {
-
+    /**
+     * 调用 目标方法
+     *
+     * @return
+     * @throws ThrowableWrapper
+     */
     Object invoke() throws ThrowableWrapper;
 
 

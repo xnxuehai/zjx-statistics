@@ -81,34 +81,29 @@ public abstract class StatisticsAspectSupport implements InitializingBean, Smart
 
         // TODO 判断 module 是否合法
         // TODO 主要的业务逻辑，此处需要根据 模块 和 统计的参数 进行处理！
-        // TODO 根据业务情况是同步处理还是异步处理！
-        // TODO 发生异常处理措施！
 
-        Object returnValue = invokeOperation(invoker);
-
-        executor.execute(() -> {
-            // 解析数据
-            DataToRpcParser parser = new DataToRpcParser();
-            // TODO 解析数据, 目前先这个抽象，后期迭代。
-            List<CounterDTO> counterDTO = parser.parser(method, operations, args);
-            // 发送数据到服务端
-            log.info("[{}] send statistics server data : {}", Thread.currentThread().getName(), counterDTO);
-            for (CounterDTO dto : counterDTO) {
-                receiveInfo.receiveInfo(dto);
-            }
-        });
+        Object returnValue = null;
+        try {
+            returnValue = invoker.invoke();
+            executor.execute(() -> {
+                // 解析数据
+                DataToRpcParser parser = new DataToRpcParser();
+                // TODO 解析数据, 目前先这个抽象，后期迭代。
+                List<CounterDTO> counterDTO = parser.parser(method, operations, args);
+                // 发送数据到服务端
+                log.info("[{}] send statistics server data : {}", Thread.currentThread().getName(), counterDTO);
+                for (CounterDTO dto : counterDTO) {
+                    receiveInfo.receiveInfo(dto);
+                }
+            });
+        } catch (StatisticsOperationInvoker.ThrowableWrapper throwableWrapper) {
+            log.error("[{}] 统计探针执行被代理对象真实方法出现异常: {}", Thread.currentThread().getName(), throwableWrapper.getMessage());
+            throwableWrapper.printStackTrace();
+            // TODO 此处抛出异常是为了防止 事务回滚的问题，这个问题待测试。
+            throw throwableWrapper;
+        }
 
         return returnValue;
-    }
-
-    /**
-     * 调用被代理对象的真实方法
-     *
-     * @param invoker
-     * @return
-     */
-    protected Object invokeOperation(StatisticsOperationInvoker invoker) {
-        return invoker.invoke();
     }
 
     private Class<?> getTargetClass(Object target) {
