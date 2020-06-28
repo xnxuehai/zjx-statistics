@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.zjx.mapper.StatisticsOfDayMapper">
-    <resultMap id="BaseResultMap" type="com.zjx.domain.StatisticsOfDay">
+<mapper namespace="com.zjx.statistics.mapper.StatisticsOfDayMapper">
+    <resultMap id="BaseResultMap" type="com.zjx.statistics.domain.StatisticsOfDay">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="users_id" property="usersId" jdbcType="INTEGER"/>
         <result column="users_study_record_counter" property="usersStudyRecordCounter" jdbcType="INTEGER"/>
@@ -24,7 +24,7 @@
         <result column="create_time" property="createTime" jdbcType="DATE"/>
     </resultMap>
 
-    <insert id="insert" parameterType="com.zjx.domain.StatisticsOfDay">
+    <insert id="insert" parameterType="com.zjx.statistics.domain.StatisticsOfDay">
           INSERT INTO statistics_of_day
             (
               users_id,

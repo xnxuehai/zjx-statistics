@@ -5,7 +5,6 @@ import com.zjx.statistics.annotation.ZjxStatistics;
 import com.zjx.statistics.interceptor.operation.AbstractStatisticsOperation;
 import com.zjx.statistics.interceptor.operation.ZjxStatisticsOperation;
 import org.springframework.core.annotation.AnnotatedElementUtils;
-import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.lang.Nullable;
 
 import java.io.Serializable;

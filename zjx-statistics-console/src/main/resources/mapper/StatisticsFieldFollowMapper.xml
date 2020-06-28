@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zjx.statistics.mapper.StatisticsCategoryMapper">
+    <resultMap id="BaseResultMap" type="com.zjx.statistics.domain.StatisticsCategory">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="field_id" property="fieldId" jdbcType="INTEGER"/>
+        <result column="hash_field" property="hashField" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="DATE"/>
+        <result column="update_time" property="updateTime" jdbcType="DATE"/>
+    </resultMap>
+
+    <sql id="baseColumn">
+        id, field_id, hash_field, create_time, update_time
+    </sql>
+</mapper>

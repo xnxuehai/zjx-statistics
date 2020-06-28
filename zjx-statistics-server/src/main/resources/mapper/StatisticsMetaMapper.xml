@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.zjx.mapper.StatisticsMetaMapper">
-    <resultMap id="BaseResultMap" type="com.zjx.domain.StatisticsMeta">
+<mapper namespace="com.zjx.statistics.mapper.StatisticsMetaMapper">
+    <resultMap id="BaseResultMap" type="com.zjx.statistics.domain.StatisticsMeta">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="module_name" property="moduleName" jdbcType="VARCHAR"/>
         <result column="module_desc" property="moduleDesc" jdbcType="VARCHAR"/>
