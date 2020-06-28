@@ -21,6 +21,16 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 @Configuration
 public class ZjxStatisticsConfiguration {
+	@Value("${statistics.threadPool.corePoolSize:50}")
+	private Integer corePoolSize;
+	@Value("${statistics.threadPool.maximumPoolSize:50}")
+	private Integer maximumPoolSize;
+	@Value("${statistics.threadPool.keepAliveTime:60}")
+	private Integer keepAliveTime;
+	@Value("${statistics.threadPool.capacity:300}")
+	private Integer capacity;
+	@Value("${statistics.threadPool.threadFactoryNamePrefix:zjx-statistics-thread}")
+	private String threadFactoryNamePrefix;
 
 	@Bean
 	public BeanFactoryZjxStatisticsOperationSourceAdvisor beanFactoryZjxStatisticsOperationSourceAdvisor() {
