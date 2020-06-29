@@ -14,8 +14,8 @@ import java.util.List;
 public class StatisticsMessageListener implements MessageListenerConcurrently {
 
     @Override
-    public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> msgs, ConsumeConcurrentlyContext consumeConcurrentlyContext) {
-        System.out.printf("%s Receive New Messages: %s %n", Thread.currentThread().getName(), msgs);
+    public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> msg, ConsumeConcurrentlyContext consumeConcurrentlyContext) {
+        System.out.printf("%s Receive New Messages: %s %n", Thread.currentThread().getName(), msg);
         // 标记该消息已经被成功消费
         return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
     }

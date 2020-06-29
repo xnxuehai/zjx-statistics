@@ -12,5 +12,5 @@ public interface Algorithm {
      *
      * @return
      */
-    Object compute();
+    void operate();
 }
