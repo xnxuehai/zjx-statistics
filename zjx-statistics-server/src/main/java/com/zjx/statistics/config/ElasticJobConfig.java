@@ -1,4 +1,4 @@
-//package com.zjx.statistics.core.config;
+//package com.zjx.statistics.config;
 //
 //import com.dangdang.ddframe.job.config.JobCoreConfiguration;
 //import com.dangdang.ddframe.job.config.simple.SimpleJobConfiguration;

@@ -1,4 +1,4 @@
-package com.zjx.statistics.core.constant;
+package com.zjx.statistics.constant;
 
 /**
  * 公共常量

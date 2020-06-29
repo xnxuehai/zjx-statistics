@@ -33,11 +33,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.zjx</groupId>
-            <artifactId>zjx-statistics-api</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>org.apache.rocketmq</groupId>
             <artifactId>rocketmq-client</artifactId>
             <optional>true</optional>

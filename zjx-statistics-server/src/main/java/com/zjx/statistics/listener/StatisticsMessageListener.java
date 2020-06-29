@@ -13,10 +13,16 @@ import java.util.List;
  */
 public class StatisticsMessageListener implements MessageListenerConcurrently {
 
-    @Override
-    public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> msg, ConsumeConcurrentlyContext consumeConcurrentlyContext) {
-        System.out.printf("%s Receive New Messages: %s %n", Thread.currentThread().getName(), msg);
-        // 标记该消息已经被成功消费
-        return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
-    }
+	@Override
+	public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> msg, ConsumeConcurrentlyContext consumeConcurrentlyContext) {
+		System.out.printf("%s Receive New Messages: %s %n", Thread.currentThread().getName(), msg);
+		// 解析数据
+
+		// 数据校验
+
+		// 进行计算 TODO 基于 ThreadLocal 进行数据传输
+
+		// 标记该消息已经被成功消费
+		return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
+	}
 }

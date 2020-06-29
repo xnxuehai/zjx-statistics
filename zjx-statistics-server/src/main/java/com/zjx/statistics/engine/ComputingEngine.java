@@ -1,5 +1,7 @@
 package com.zjx.statistics.engine;
 
+import com.zjx.statistics.cache.CacheStore;
+
 /**
  * 计算引擎
  *
@@ -8,4 +10,13 @@ package com.zjx.statistics.engine;
  */
 public class ComputingEngine {
 
+	private Algorithm algorithm;
+
+	public ComputingEngine(String algorithmPath) {
+		this.algorithm = CacheStore.getInstance().getAlgorithm(algorithmPath);
+	}
+
+	public void operate() {
+		this.algorithm.operate();
+	}
 }

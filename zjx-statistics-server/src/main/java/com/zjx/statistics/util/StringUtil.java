@@ -1,4 +1,4 @@
-package com.zjx.statistics.core.util;
+package com.zjx.statistics.util;
 
 /**
  * 字符串处理工具

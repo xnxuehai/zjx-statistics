@@ -1,4 +1,4 @@
-package com.zjx.statistics.core.config;
+package com.zjx.statistics.config;
 
 import com.alibaba.dubbo.config.*;
 import org.springframework.beans.factory.annotation.Value;

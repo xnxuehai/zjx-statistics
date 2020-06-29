@@ -51,12 +51,6 @@
 
             <dependency>
                 <groupId>com.zjx</groupId>
-                <artifactId>zjx-statistics-api</artifactId>
-                <version>${version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.zjx</groupId>
                 <artifactId>zjx-statistics-console-api</artifactId>
                 <version>${version}</version>
             </dependency>

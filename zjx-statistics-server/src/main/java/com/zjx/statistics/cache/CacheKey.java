@@ -1,7 +1,7 @@
-package com.zjx.statistics.core.cache;
+package com.zjx.statistics.cache;
 
-import com.zjx.statistics.core.constant.Constant;
-import com.zjx.statistics.core.util.DateUtil;
+import com.zjx.statistics.constant.Constant;
+import com.zjx.statistics.util.DateUtil;
 
 /**
  * 缓存 key 管理

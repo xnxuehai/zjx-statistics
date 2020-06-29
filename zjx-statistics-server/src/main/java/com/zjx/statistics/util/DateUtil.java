@@ -1,4 +1,4 @@
-package com.zjx.statistics.core.util;
+package com.zjx.statistics.util;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
