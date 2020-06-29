@@ -63,30 +63,19 @@
             <artifactId>fastjson</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.dangdang</groupId>
-            <artifactId>elastic-job-lite-core</artifactId>
-        </dependency>
-        <dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.dangdang</groupId>-->
+<!--            <artifactId>elastic-job-lite-core</artifactId>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
 
-            <groupId>com.dangdang</groupId>
-            <artifactId>elastic-job-lite-spring</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid</artifactId>
-            <version>1.1.22</version>
-        </dependency>
+<!--            <groupId>com.dangdang</groupId>-->
+<!--            <artifactId>elastic-job-lite-spring</artifactId>-->
+<!--        </dependency>-->
 
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <groupId>com.zjx</groupId>
+            <artifactId>zjx-statistics-console-api</artifactId>
         </dependency>
 
     </dependencies>

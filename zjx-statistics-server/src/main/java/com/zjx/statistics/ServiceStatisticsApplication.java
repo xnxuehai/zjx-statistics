@@ -1,7 +1,6 @@
 package com.zjx.statistics;
 
 import com.alibaba.dubbo.config.spring.context.annotation.DubboComponentScan;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -11,7 +10,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 @DubboComponentScan("com.zjx.service.impl")
-@MapperScan("com.zjx.mapper")
 public class ServiceStatisticsApplication {
 
     public static void main(String[] args) {

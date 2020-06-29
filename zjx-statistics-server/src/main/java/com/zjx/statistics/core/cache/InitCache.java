@@ -1,8 +1,9 @@
 package com.zjx.statistics.core.cache;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.zjx.statistics.domain.StatisticsMeta;
-import com.zjx.statistics.mapper.StatisticsMetaColumnMapper;
-import com.zjx.statistics.mapper.StatisticsMetaMapper;
+import com.zjx.statistics.dto.StatisticsFieldDTO;
+import com.zjx.statistics.facade.StatisticsFieldFacade;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.boot.CommandLineRunner;
@@ -11,7 +12,6 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -23,30 +23,29 @@ import java.util.List;
 @Slf4j
 @Component
 public class InitCache implements CommandLineRunner, ApplicationContextAware {
+
     private ApplicationContext applicationContext;
-    @Resource
-    private StatisticsMetaMapper statisticsMetaMapper;
-    @Resource
-    private StatisticsMetaColumnMapper statisticsMetaColumnMapper;
+
+    @Reference
+    private StatisticsFieldFacade statisticsFieldFacade;
 
     @Override
-    public void run(String... args) throws Exception {
-        log.info("初始化本地缓存开始....");
+    public void run(String... args) {
+        log.info("初始化统计属性缓存缓存开始....");
         try {
-            List<StatisticsMeta> statisticsMetas = statisticsMetaMapper.selectAll();
-            for (StatisticsMeta statisticsMeta : statisticsMetas) {
+            List<StatisticsFieldDTO> statisticsFieldAll = statisticsFieldFacade.getStatisticsFieldAll();
+            for (StatisticsFieldDTO statisticsFieldDTO : statisticsFieldAll) {
                 // 添加 StatisticsMeta
-                CacheStore.getInstance().addStatisticsMeta(statisticsMeta);
-                // 添加 StatisticsMetaColumn
-                CacheStore.getInstance().addStatisticsMetaColumn(statisticsMeta.getId(), statisticsMetaColumnMapper.selectAllByMetaId(statisticsMeta.getId()));
+                CacheStore.getInstance().addFieldCache(statisticsFieldDTO.getCacheField(), statisticsFieldDTO.getHashFieldList());
             }
         } catch (Exception e) {
+            log.error("初始化统计属性缓存异常!!!");
             e.printStackTrace();
             AbstractApplicationContext abstractApplicationContext = (AbstractApplicationContext) applicationContext;
             // 关闭容器
             abstractApplicationContext.close();
         }
-        log.info("初始化本地缓存结束....");
+        log.info("初始化统计属性缓存缓存结束....");
     }
 
     @Override

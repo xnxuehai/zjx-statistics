@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.zjx.statistics.mapper.StatisticsCategoryMapper">
-    <resultMap id="BaseResultMap" type="com.zjx.statistics.domain.StatisticsCategory">
+<mapper namespace="com.zjx.statistics.mapper.StatisticsFieldFollowMapper">
+    <resultMap id="BaseResultMap" type="com.zjx.statistics.domain.StatisticsFieldFollow">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="field_id" property="fieldId" jdbcType="INTEGER"/>
+        <result column="rule_id" property="ruleId" jdbcType="INTEGER"/>
         <result column="hash_field" property="hashField" jdbcType="VARCHAR"/>
         <result column="create_time" property="createTime" jdbcType="DATE"/>
         <result column="update_time" property="updateTime" jdbcType="DATE"/>
     </resultMap>
 
     <sql id="baseColumn">
-        id, field_id, hash_field, create_time, update_time
+        id, field_id, hash_field,rule_id, create_time, update_time
     </sql>
+
+    <!-- 根据属性id获取从表的 hash 属性 -->
+    <select id="findByFieldId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="baseColumn"/>
+        from statistics_field_follow where field_id = #{id}
+    </select>
 </mapper>

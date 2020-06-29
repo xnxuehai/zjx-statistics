@@ -1,6 +1,9 @@
-package com.zjx.statistics.core.config;
+package com.zjx.statistics.config;
 
-import com.alibaba.dubbo.config.*;
+import com.alibaba.dubbo.config.ApplicationConfig;
+import com.alibaba.dubbo.config.ProtocolConfig;
+import com.alibaba.dubbo.config.ProviderConfig;
+import com.alibaba.dubbo.config.RegistryConfig;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,10 +21,10 @@ public class DubboConfig {
     @Bean
     public ApplicationConfig applicationConfig() {
         ApplicationConfig applicationConfig = new ApplicationConfig();
-        applicationConfig.setId("zjx_statistics");
-        applicationConfig.setName("zjx_statistics");
+        applicationConfig.setId("zjx_statistics_console");
+        applicationConfig.setName("zjx_statistics_console");
         applicationConfig.setQosEnable(true);
-        applicationConfig.setQosPort(20008);
+        applicationConfig.setQosPort(20009);
         return applicationConfig;
     }
 
@@ -30,7 +33,7 @@ public class DubboConfig {
         ProtocolConfig protocolConfig = new ProtocolConfig();
         protocolConfig.setId("dubbo");
         protocolConfig.setName("dubbo");
-        protocolConfig.setPort(20888);
+        protocolConfig.setPort(20889);
         protocolConfig.setThreads(5000);
         protocolConfig.setDispatcher("message");
         protocolConfig.setThreadpool("cached");
@@ -53,14 +56,5 @@ public class DubboConfig {
         providerConfig.setRetries(0);
         providerConfig.setDelay(-1);
         return providerConfig;
-    }
-
-    @Bean
-    public ConsumerConfig consumerConfig() {
-        ConsumerConfig consumerConfig = new ConsumerConfig();
-        consumerConfig.setCheck(true);
-        consumerConfig.setVersion("1.0.0");
-        consumerConfig.setRetries(0);
-        return consumerConfig;
     }
 }

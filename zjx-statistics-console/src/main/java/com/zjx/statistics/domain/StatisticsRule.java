@@ -6,26 +6,23 @@ import java.util.Date;
 
 /**
  * @author Aaron
- * @date 2020/6/28 15:52
+ * @date 2020/6/29 9:49
  */
 @Data
-public class StatisticsFieldFollow {
+public class StatisticsRule {
     /**
      * 唯一标识
      */
     private Integer id;
     /**
-     * 属性id
+     * 描述信息
      */
-    private Integer fieldId;
+    private String description;
     /**
-     * hash 属性
+     * 规则对应的计算引擎
+     *
      */
-    private String hashField;
-    /**
-     * 计算规则id
-     */
-    private Integer ruleId;
+    private String ruleEngine;
     /**
      * 创建时间
      */
