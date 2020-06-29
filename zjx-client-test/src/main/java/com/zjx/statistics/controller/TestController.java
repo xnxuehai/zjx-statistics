@@ -1,9 +1,7 @@
 package com.zjx.statistics.controller;
 
-import com.alibaba.dubbo.config.annotation.Reference;
 import com.zjx.statistics.domain.Data;
 import com.zjx.statistics.service.TestBizService;
-import com.zjx.statistics.facade.ReceiveInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,9 +20,6 @@ public class TestController {
 
     @Resource
     private TestBizService testBizService;
-
-    @Reference
-    private ReceiveInfo receiveInfo;
 
     /**
      * 一般统计数据测试
@@ -80,7 +75,7 @@ public class TestController {
             , @PathVariable("experience") Integer experience
             , @PathVariable("medal") Integer medal) {
         log.info("接收数据 userId:{},experience:{},medal:{}", userId, experience, medal);
-        receiveInfo.receiveInfo(userId, experience, medal);
+//        receiveInfo.receiveInfo(userId, experience, medal);
 
         return "SUCCESS";
     }

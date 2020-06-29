@@ -46,16 +46,6 @@ public class DubboConfig {
     }
 
     @Bean
-    public ProviderConfig providerConfig() {
-        ProviderConfig providerConfig = new ProviderConfig();
-        providerConfig.setVersion("1.0.0");
-        providerConfig.setTimeout(15000);
-        providerConfig.setRetries(0);
-        providerConfig.setDelay(-1);
-        return providerConfig;
-    }
-
-    @Bean
     public ConsumerConfig consumerConfig() {
         ConsumerConfig consumerConfig = new ConsumerConfig();
         consumerConfig.setCheck(true);

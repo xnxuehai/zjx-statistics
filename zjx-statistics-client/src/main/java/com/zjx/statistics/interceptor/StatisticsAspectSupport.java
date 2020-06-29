@@ -1,10 +1,16 @@
 package com.zjx.statistics.interceptor;
 
-import com.alibaba.dubbo.config.annotation.Reference;
+import com.alibaba.fastjson.JSON;
 import com.zjx.statistics.dto.CounterDTO;
-import com.zjx.statistics.facade.ReceiveInfo;
 import com.zjx.statistics.interceptor.operation.AbstractStatisticsOperation;
 import com.zjx.statistics.rpc.parser.DataToRpcParser;
+import org.apache.rocketmq.client.exception.MQBrokerException;
+import org.apache.rocketmq.client.exception.MQClientException;
+import org.apache.rocketmq.client.producer.DefaultMQProducer;
+import org.apache.rocketmq.client.producer.SendResult;
+import org.apache.rocketmq.common.message.Message;
+import org.apache.rocketmq.remoting.common.RemotingHelper;
+import org.apache.rocketmq.remoting.exception.RemotingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.AopProxyUtils;
@@ -14,6 +20,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.*;
@@ -35,8 +42,9 @@ public abstract class StatisticsAspectSupport implements InitializingBean, Smart
     @Resource(name = "statisticsThreadPoolExecutor")
     private Executor executor;
 
-    @Reference
-    private ReceiveInfo receiveInfo;
+    @Resource(name = "statisticsProducer")
+    private DefaultMQProducer producer;
+
 
     public void setCacheOperationSource(@Nullable StatisticsOperationSource statisticsOperationSource) {
         this.statisticsOperationSource = statisticsOperationSource;
@@ -93,7 +101,24 @@ public abstract class StatisticsAspectSupport implements InitializingBean, Smart
                 // 发送数据到服务端
                 log.info("[{}] send statistics server data : {}", Thread.currentThread().getName(), counterDTO);
                 for (CounterDTO dto : counterDTO) {
-                    receiveInfo.receiveInfo(dto);
+                    SendResult sendResult = null;
+                    try {
+                        Message msg = new Message("syn_topic_test", "TagA", JSON.toJSONString(dto).getBytes(RemotingHelper.DEFAULT_CHARSET));
+                        // 发送消息到一个Broker
+                        sendResult = producer.send(msg);
+                    } catch (MQClientException e) {
+                        e.printStackTrace();
+                    } catch (RemotingException e) {
+                        e.printStackTrace();
+                    } catch (MQBrokerException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                    // 通过sendResult返回消息是否成功送达
+                    log.info("sendResult:{}", sendResult);
                 }
             });
         } catch (StatisticsOperationInvoker.ThrowableWrapper throwableWrapper) {

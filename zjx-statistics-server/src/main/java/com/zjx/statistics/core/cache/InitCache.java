@@ -1,7 +1,6 @@
 package com.zjx.statistics.core.cache;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.zjx.statistics.domain.StatisticsMeta;
 import com.zjx.statistics.dto.StatisticsFieldDTO;
 import com.zjx.statistics.facade.StatisticsFieldFacade;
 import lombok.extern.slf4j.Slf4j;
