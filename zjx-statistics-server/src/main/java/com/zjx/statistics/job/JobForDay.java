@@ -1,11 +1,5 @@
 package com.zjx.statistics.job;
 
-import com.zjx.statistics.service.CacheHandler;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
-
 /**
  * @author Aaron
  * @date 2020/6/17 14:41
