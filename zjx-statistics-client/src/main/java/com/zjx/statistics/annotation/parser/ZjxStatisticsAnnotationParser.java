@@ -89,11 +89,7 @@ public class ZjxStatisticsAnnotationParser implements StatisticsAnnotationParser
 
         builder.setKey(zjxStatistics.key());
         builder.setModule(zjxStatistics.module());
-        builder.setCountSelf(zjxStatistics.isCountSelf());
-        builder.setParamField(zjxStatistics.paramField());
-        builder.setTableField(zjxStatistics.tableField());
-        builder.setOpenStatus(zjxStatistics.openStatus());
-        builder.setTableStatus(zjxStatistics.tableStatus());
+        builder.setHashField(zjxStatistics.hashField());
 
         AbstractStatisticsOperation op = builder.build();
 

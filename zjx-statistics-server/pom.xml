@@ -78,5 +78,10 @@
             <artifactId>zjx-statistics-console-api</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.zjx</groupId>
+            <artifactId>zjx-statistics-client</artifactId>
+        </dependency>
+
     </dependencies>
 </project>

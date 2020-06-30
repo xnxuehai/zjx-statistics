@@ -33,25 +33,7 @@ public class TestController {
         Data res = new Data();
         switch (data.getFlag()) {
             case 1:
-                res = testBizService.usersStudyRecord(data);
-                break;
-            case 2:
-                res = testBizService.userStudyWikiVideo(data);
-                break;
-            case 3:
-                res = testBizService.userDubVideoRecord(data);
-                break;
-            case 4:
-                res = testBizService.chapterUserDub(data);
-                break;
-            case 5:
-                res = testBizService.usersQuestionRecord(data);
-                break;
-            case 6:
-                res = testBizService.userDub(data);
-                break;
-            case 7:
-                res = testBizService.messageTask(data);
+                res = testBizService.registerUser(data);
                 break;
             default:
                 log.info("没有对应的操作....");

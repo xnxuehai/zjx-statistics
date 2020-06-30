@@ -1,8 +1,7 @@
 package com.zjx.statistics.interceptor;
 
-import com.alibaba.fastjson.JSON;
 import com.zjx.statistics.interceptor.operation.AbstractStatisticsOperation;
-import com.zjx.statistics.rpc.parser.DataToRpcParser;
+import com.zjx.statistics.transport.ParserToTransData;
 import org.apache.rocketmq.client.exception.MQBrokerException;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
@@ -93,16 +92,16 @@ public abstract class StatisticsAspectSupport implements InitializingBean, Smart
         try {
             returnValue = invoker.invoke();
             executor.execute(() -> {
+                // 数据解析器
+                ParserToTransData parser = new ParserToTransData();
                 // 解析数据
-                DataToRpcParser parser = new DataToRpcParser();
-                // TODO 解析数据, 目前先这个抽象，后期迭代。
-//                List<CounterDTO> counterDTO = parser.parser(method, operations, args);
+                List<String> jsonList = parser.parser(method, operations, args);
                 // 发送数据到服务端
-//                log.info("[{}] send statistics server data : {}", Thread.currentThread().getName(), counterDTO);
-//                for (CounterDTO dto : counterDTO) {
-                    SendResult sendResult = null;
+                log.info("[{}] send statistics server data : {}", Thread.currentThread().getName(), jsonList);
+                SendResult sendResult = null;
+                for (String json : jsonList) {
                     try {
-                        Message msg = new Message("syn_topic_test", "TagA", JSON.toJSONString("123123123121231232132132").getBytes(RemotingHelper.DEFAULT_CHARSET));
+                        Message msg = new Message("syn_topic_test", "TagA", json.getBytes(RemotingHelper.DEFAULT_CHARSET));
                         // 发送消息到一个Broker
                         sendResult = producer.send(msg);
                     } catch (MQClientException e) {
@@ -118,7 +117,7 @@ public abstract class StatisticsAspectSupport implements InitializingBean, Smart
                     }
                     // 通过sendResult返回消息是否成功送达
                     log.info("sendResult:{}", sendResult);
-//                }
+                }
             });
         } catch (StatisticsOperationInvoker.ThrowableWrapper throwableWrapper) {
             log.error("[{}] 统计探针执行被代理对象真实方法出现异常: {}", Thread.currentThread().getName(), throwableWrapper.getMessage());

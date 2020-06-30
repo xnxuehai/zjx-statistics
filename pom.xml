@@ -13,7 +13,6 @@
     <modules>
         <module>zjx-statistics-client</module>
         <module>zjx-client-test</module>
-        <module>zjx-statistics-api</module>
         <module>zjx-statistics-server</module>
         <module>zjx-statistics-console</module>
         <module>zjx-statistics-job</module>

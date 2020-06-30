@@ -23,15 +23,7 @@ public class AbstractStatisticsOperation implements BasicOperation {
 
     private final String module;
 
-    private Boolean countSelf;
-
-    private Set<String> paramField;
-
-    private Set<String> tableField;
-
-    private Set<String> openStatus;
-
-    private Set<String> tableStatus;
+    private Set<String> hashField;
 
     private final String toString;
 
@@ -40,11 +32,7 @@ public class AbstractStatisticsOperation implements BasicOperation {
         this.name = b.name;
         this.key = b.key;
         this.module = b.module;
-        this.countSelf = b.countSelf;
-        this.paramField = b.paramField;
-        this.tableField = b.tableField;
-        this.openStatus = b.openStatus;
-        this.tableStatus = b.tableStatus;
+        this.hashField = b.hashField;
         this.toString = b.getOperationDescription().toString();
     }
 
@@ -61,24 +49,8 @@ public class AbstractStatisticsOperation implements BasicOperation {
         return key;
     }
 
-    public Boolean getCountSelf() {
-        return countSelf;
-    }
-
-    public Set<String> getParamField() {
-        return paramField;
-    }
-
-    public Set<String> getTableField() {
-        return tableField;
-    }
-
-    public Set<String> getOpenStatus() {
-        return openStatus;
-    }
-
-    public Set<String> getTableStatus() {
-        return tableStatus;
+    public Set<String> getHashField() {
+        return hashField;
     }
 
     public String getToString() {
@@ -113,15 +85,7 @@ public class AbstractStatisticsOperation implements BasicOperation {
 
         private String module = "";
 
-        private Boolean countSelf = false;
-
-        private Set<String> paramField = Collections.emptySet();
-
-        private Set<String> tableField = Collections.emptySet();
-
-        private Set<String> openStatus = Collections.emptySet();
-
-        private Set<String> tableStatus = Collections.emptySet();
+        private Set<String> hashField = Collections.emptySet();
 
         public void setName(String name) {
             Assert.hasText(name, "Name must not be empty");
@@ -138,64 +102,25 @@ public class AbstractStatisticsOperation implements BasicOperation {
             this.module = module;
         }
 
-        public void setCountSelf(Boolean countSelf) {
-            this.countSelf = countSelf;
+
+        public void setHashField(String hashField) {
+            this.hashField = Collections.singleton(hashField);
         }
 
-        public void setParamField(String paramField) {
-            this.paramField = Collections.singleton(paramField);
-        }
-
-        public void setParamField(String... paramFields) {
-            this.paramField = new LinkedHashSet<>(paramFields.length);
-            for (String field : paramFields) {
-                this.paramField.add(field);
+        public void setHashField(String... hashFields) {
+            this.hashField = new LinkedHashSet<>(hashFields.length);
+            for (String field : hashFields) {
+                this.hashField.add(field);
             }
         }
 
-        public void setTableField(String tableField) {
-            this.tableField = Collections.singleton(tableField);
-        }
-
-        public void setTableField(String... tableFields) {
-            this.tableField = new LinkedHashSet<>(tableFields.length);
-            for (String field : tableFields) {
-                this.tableField.add(field);
-            }
-        }
-
-        public void setOpenStatus(String openStatus) {
-            this.openStatus = Collections.singleton(openStatus);
-        }
-
-        public void setOpenStatus(String... openStatus) {
-            this.openStatus = new LinkedHashSet<>(openStatus.length);
-            for (String field : openStatus) {
-                this.openStatus.add(field);
-            }
-        }
-
-        public void setTableStatus(String tableStatus) {
-            this.tableStatus = Collections.singleton(tableStatus);
-        }
-
-        public void setTableStatus(String... tableStatus) {
-            this.tableStatus = new LinkedHashSet<>(tableStatus.length);
-            for (String field : tableStatus) {
-                this.tableStatus.add(field);
-            }
-        }
 
         protected StringBuilder getOperationDescription() {
             StringBuilder result = new StringBuilder(getClass().getSimpleName());
             result.append("[").append(this.name);
             result.append("] key=").append(this.key);
             result.append(" | module='").append(this.module);
-            result.append("' | countSelf='").append(this.countSelf);
-            result.append("' | paramField='").append(this.paramField);
-            result.append("' | tableField='").append(this.tableField);
-            result.append("' | openStatus='").append(this.openStatus);
-            result.append("' | tableStatus='").append(this.openStatus).append("'");
+            result.append("' | hashField='").append(this.hashField).append("'");
             return result;
         }
 
