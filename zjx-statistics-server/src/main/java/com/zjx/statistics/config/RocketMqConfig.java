@@ -7,6 +7,7 @@ import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
 
 /**
  * @author Aaron
@@ -33,7 +34,7 @@ public class RocketMqConfig {
             // 订阅一个或者多个Topic，以及Tag来过滤需要消费的消息
             consumer.subscribe(TOPIC, "*");
             // 注册回调实现类来处理从broker拉取回来的消息
-            consumer.registerMessageListener(new StatisticsMessageListener());
+            consumer.registerMessageListener(statisticsMessageListener());
             // 启动消费者实例
             consumer.start();
             log.info("消费者启动成功...");
@@ -42,5 +43,10 @@ public class RocketMqConfig {
             e.printStackTrace();
         }
         return consumer;
+    }
+
+    @Bean
+    public StatisticsMessageListener statisticsMessageListener() {
+        return new StatisticsMessageListener();
     }
 }

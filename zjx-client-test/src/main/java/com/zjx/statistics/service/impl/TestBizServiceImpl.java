@@ -19,4 +19,10 @@ public class TestBizServiceImpl implements TestBizService {
         log.info("{} -- registerUser 业务逻辑持久化操作...", Thread.currentThread().getName());
         return data;
     }
+
+    @Override
+    public void access(String userId) {
+        log.info("{} -- access 入参:{}", Thread.currentThread().getName(), userId);
+        log.info("{} -- access 业务逻辑持久化操作...", Thread.currentThread().getName());
+    }
 }

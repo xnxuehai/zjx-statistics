@@ -8,8 +8,13 @@ package com.zjx.statistics.engine;
  */
 public class NoAttributeAdd implements Algorithm {
 
-	@Override
-	public void operate() {
-
-	}
+    @Override
+    public void operate() {
+        ComputeContextData computeContextData = ComputeContext.getInstance().getComputeContextData();
+        if (computeContextData.getAccumulate() != null) {
+            computeContextData.setAccumulate(computeContextData.getAccumulate() + 1);
+        } else {
+            computeContextData.setAccumulate(1);
+        }
+    }
 }

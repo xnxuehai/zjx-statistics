@@ -49,7 +49,7 @@ public class InitCache implements CommandLineRunner, ApplicationContextAware {
 			List<StatisticsFieldDTO> statisticsFieldAll = statisticsFieldFacade.getStatisticsFieldAll();
 			for (StatisticsFieldDTO statisticsFieldDTO : statisticsFieldAll) {
 				// 添加 StatisticsMeta
-				CacheStore.getInstance().addFieldCache(statisticsFieldDTO.getCacheField(), statisticsFieldDTO.getHashFieldList());
+				CacheStore.getInstance().addFieldCache(statisticsFieldDTO.getCacheField(),statisticsFieldDTO);
 			}
 		} catch (Exception e) {
 			log.error("初始化统计属性缓存异常!!!");

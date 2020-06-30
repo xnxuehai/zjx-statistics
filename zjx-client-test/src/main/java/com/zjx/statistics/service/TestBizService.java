@@ -16,7 +16,15 @@ public interface TestBizService {
      * @param data data
      * @return
      */
-    @ZjxStatistics(key = "userId", module = "user:operation:$date$:new:user")
+    @ZjxStatistics(key = "userId", module = "$date$:new:user:set")
     Data registerUser(Data data);
 
+    /**
+     * 日统计新增用户数
+     *
+     * @param userId
+     * @return
+     */
+    @ZjxStatistics(key = "userId", module = "$date$:new:user:count")
+    void access(String userId);
 }

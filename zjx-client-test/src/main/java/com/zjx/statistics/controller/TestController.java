@@ -35,6 +35,9 @@ public class TestController {
             case 1:
                 res = testBizService.registerUser(data);
                 break;
+            case 2:
+                testBizService.access(data.getUserId().toString());
+                break;
             default:
                 log.info("没有对应的操作....");
                 break;

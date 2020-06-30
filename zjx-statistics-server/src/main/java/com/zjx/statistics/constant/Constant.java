@@ -32,11 +32,11 @@ public class Constant {
 
     public static final String INVALID_FLAG = "-1";
 
-    public static final String SPLIT = "_";
+    public static final Integer STRING = 1;
+    public static final Integer SET = 2;
+    public static final Integer HASH = 3;
+    public static final Integer Z_SET = 4;
 
-    public static final String COUNT_SELF = "count_self";
-
-    public static final String ZERO = "0";
 }
 
 

@@ -4,6 +4,8 @@
     <resultMap id="BaseResultMap" type="com.zjx.statistics.domain.StatisticsField">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="category_id" property="categoryId" jdbcType="INTEGER"/>
+        <result column="expired" property="expired" jdbcType="INTEGER"/>
+        <result column="data_type" property="dataType" jdbcType="INTEGER"/>
         <result column="cache_field" property="cacheField" jdbcType="VARCHAR"/>
         <result column="description" property="description" jdbcType="VARCHAR"/>
         <result column="create_time" property="createTime" jdbcType="DATE"/>
@@ -11,12 +13,14 @@
     </resultMap>
 
     <sql id="baseColumn">
-        id, category_id, cache_field, description, create_time, update_time
+        id, category_id, cache_field, description, expired, data_type, create_time, update_time
     </sql>
 
     <!--获取所有需要统计的 field-->
     <select id="selectAll" resultMap="BaseResultMap">
-        select <include refid="baseColumn"/>
+        select
+        <include refid="baseColumn"/>
         from statistics_field
     </select>
+
 </mapper>

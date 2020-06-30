@@ -9,6 +9,7 @@ import com.zjx.statistics.dto.StatisticsFieldHashRuleDTO;
 import com.zjx.statistics.facade.StatisticsFieldFacade;
 import com.zjx.statistics.service.IStatisticsFieldService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -46,7 +47,7 @@ public class StatisticsFieldFacadeImpl implements StatisticsFieldFacade {
         StatisticsFieldDTO statisticsFieldDTO;
         for (StatisticsField statisticsField : allField) {
             statisticsFieldDTO = new StatisticsFieldDTO();
-            statisticsFieldDTO.setCacheField(statisticsField.getCacheField());
+            BeanUtils.copyProperties(statisticsField,statisticsFieldDTO);
 
             // 根据统计属性获取 hash field 和 计算规则
             List<StatisticsFieldFollow> hashFieldAndRule = statisticsFieldService.findByFieldId(statisticsField.getId());

@@ -1,10 +1,9 @@
 package com.zjx.statistics.cache;
 
-import com.zjx.statistics.dto.StatisticsFieldHashRuleDTO;
+import com.zjx.statistics.dto.StatisticsFieldDTO;
 import com.zjx.statistics.engine.Algorithm;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -19,7 +18,7 @@ public class CacheStore {
 	/**
 	 * 统计 field 本地缓存
 	 */
-	private Map<String, List<StatisticsFieldHashRuleDTO>> statisticsMetaColumnStore = new ConcurrentHashMap<>(8);
+	private Map<String, StatisticsFieldDTO> statisticsMetaColumnStore = new ConcurrentHashMap<>(8);
 	/**
 	 * 计算规则缓存
 	 */
@@ -54,7 +53,7 @@ public class CacheStore {
 	 * @param key key
 	 * @return List<StatisticsFieldHashRuleDTO>
 	 */
-	public List<StatisticsFieldHashRuleDTO> getHashRule(String key) {
+	public StatisticsFieldDTO getHashFile(String key) {
 		return this.statisticsMetaColumnStore.get(key);
 	}
 
@@ -63,12 +62,12 @@ public class CacheStore {
 	 *
 	 * @param key key
 	 */
-	public void addFieldCache(String key, List<StatisticsFieldHashRuleDTO> list) {
+	public void addFieldCache(String key, StatisticsFieldDTO statisticsFieldDTO) {
 		if (statisticsMetaColumnStore.containsKey(key)) {
 			log.error("当前缓存中存在key！！！");
 			throw new RuntimeException("存在要添加的缓存key");
 		}
-		this.statisticsMetaColumnStore.put(key, list);
+		this.statisticsMetaColumnStore.put(key, statisticsFieldDTO);
 	}
 
 	/**

@@ -33,7 +33,7 @@ public class ZjxStatisticsConfiguration {
     private Integer capacity;
     @Value("${statistics.threadPool.threadFactoryNamePrefix:zjx-statistics-thread}")
     private String threadFactoryNamePrefix;
-    @Value("${statistics.mq.producer.group:zjx_statistics_consumer_group}")
+    @Value("${statistics.mq.producer.group:zjx_statistics_producer_group}")
     private String producerGroup;
     @Value("${statistics.mq.nameSrvAddr:121.43.181.38:9876}")
     private String nameSrvAddr;

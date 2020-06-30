@@ -27,6 +27,14 @@ public class StatisticsField {
      */
     private String description;
     /**
+     * 过期时间 单位 秒
+     */
+    private Integer expired;
+    /**
+     * 数据类型 1 string 2 set 3 hash 4 zSet
+     */
+    private Integer dataType;
+    /**
      * 创建时间
      */
     private Date createTime;
