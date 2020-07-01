@@ -101,7 +101,7 @@ public abstract class StatisticsAspectSupport implements InitializingBean, Smart
                 SendResult sendResult = null;
                 for (String json : jsonList) {
                     try {
-                        Message msg = new Message("syn_topic_test", "TagA", json.getBytes(RemotingHelper.DEFAULT_CHARSET));
+                        Message msg = new Message("statistics_metadata_info_topic", "info", json.getBytes(RemotingHelper.DEFAULT_CHARSET));
                         // 发送消息到一个Broker
                         sendResult = producer.send(msg);
                     } catch (MQClientException e) {

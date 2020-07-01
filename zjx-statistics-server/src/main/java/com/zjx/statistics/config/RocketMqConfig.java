@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -17,26 +18,26 @@ import org.springframework.data.redis.core.RedisTemplate;
 @Configuration
 @Slf4j
 public class RocketMqConfig {
-    private static final String CONSUMER_GROUP = "zjx_statistics_consumer_group";
-    private static final String NAME_SRV_ADDR = "121.43.181.38:9876";
-    private static final String TOPIC = "syn_topic_test";
-
-
-    private static final String PRODUCER_GROUP = "zjx_statistics_console_producer_group";
+    @Value("${statistics.mq.consumer.group:zjx_statistics_consumer_group}")
+    private String consumerGroup;
+    @Value("${statistics.mq.console.producer.group:zjx_statistics_console_producer_group}")
+    private String producerGroup;
+    @Value("${statistics.mq.nameSrvAddr:121.43.181.38:9876}")
+    private String nameSrvAddr;
 
     @Bean
     public DefaultMQPushConsumer consumer() {
         DefaultMQPushConsumer consumer = null;
         try {
-            consumer = new DefaultMQPushConsumer(CONSUMER_GROUP);
+            consumer = new DefaultMQPushConsumer(consumerGroup);
 
             // 设置NameServer的地址
-            consumer.setNamesrvAddr(NAME_SRV_ADDR);
+            consumer.setNamesrvAddr(nameSrvAddr);
 
             consumer.setVipChannelEnabled(false);
 
             // 订阅一个或者多个Topic，以及Tag来过滤需要消费的消息
-            consumer.subscribe(TOPIC, "*");
+            consumer.subscribe("statistics_metadata_info_topic", "info");
             // 注册回调实现类来处理从broker拉取回来的消息
             consumer.registerMessageListener(statisticsMessageListener());
             // 启动消费者实例
@@ -59,9 +60,9 @@ public class RocketMqConfig {
         DefaultMQProducer producer = null;
         try {
             // 实例化消息生产者Producer
-            producer = new DefaultMQProducer(PRODUCER_GROUP);
+            producer = new DefaultMQProducer(producerGroup);
             // 设置NameServer的地址
-            producer.setNamesrvAddr(NAME_SRV_ADDR);
+            producer.setNamesrvAddr(nameSrvAddr);
             producer.setVipChannelEnabled(false);
             // 启动Producer实例
             producer.start();

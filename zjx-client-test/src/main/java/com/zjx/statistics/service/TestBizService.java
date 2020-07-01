@@ -16,7 +16,7 @@ public interface TestBizService {
      * @param data data
      * @return
      */
-    @ZjxStatistics(key = "userId", module = "$date$:new:user:set1")
+    @ZjxStatistics(key = "userId", module = "$date$:new:user:set")
     Data registerUser(Data data);
 
     /**
