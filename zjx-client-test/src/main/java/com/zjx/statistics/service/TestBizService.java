@@ -25,6 +25,6 @@ public interface TestBizService {
      * @param userId
      * @return
      */
-    @ZjxStatistics(key = "userId", module = "$date$:new:user:count1")
+    @ZjxStatistics(key = "userId", module = "$date$:new:user:count")
     void access(String userId);
 }

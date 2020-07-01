@@ -73,5 +73,10 @@
             <artifactId>zjx-statistics-client</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.zjx</groupId>
+            <artifactId>zjx-statistics-commons</artifactId>
+        </dependency>
+
     </dependencies>
 </project>

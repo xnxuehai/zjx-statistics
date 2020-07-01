@@ -1,6 +1,7 @@
 package com.zjx.statistics.util;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 进位制处理
@@ -8,8 +9,8 @@ import lombok.extern.slf4j.Slf4j;
  * @author Aaron
  * @date 2020/6/16 17:07
  */
-@Slf4j
 public class CarryUtil {
+    private static Logger log = LoggerFactory.getLogger(CarryUtil.class);
     /**
      * 最大值
      */

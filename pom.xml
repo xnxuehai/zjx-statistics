@@ -17,6 +17,7 @@
         <module>zjx-statistics-console</module>
         <module>zjx-statistics-job</module>
         <module>zjx-statistics-console-api</module>
+        <module>zjx-statistics-commons</module>
     </modules>
 
     <properties>
@@ -51,6 +52,12 @@
             <dependency>
                 <groupId>com.zjx</groupId>
                 <artifactId>zjx-statistics-console-api</artifactId>
+                <version>${version}</version>
+            </dependency>
+            
+            <dependency>
+                <groupId>com.zjx</groupId>
+                <artifactId>zjx-statistics-commons</artifactId>
                 <version>${version}</version>
             </dependency>
 

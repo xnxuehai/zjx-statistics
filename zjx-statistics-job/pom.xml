@@ -77,10 +77,14 @@
             <artifactId>zjx-statistics-console-api</artifactId>
         </dependency>
 
-
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.zjx</groupId>
+            <artifactId>zjx-statistics-commons</artifactId>
         </dependency>
     </dependencies>
 </project>
