@@ -24,6 +24,21 @@
         </dependency>
 
         <dependency>
+            <groupId>com.zjx</groupId>
+            <artifactId>zjx-statistics-console-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.zjx</groupId>
+            <artifactId>zjx-statistics-client</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.zjx</groupId>
+            <artifactId>zjx-statistics-commons</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>dubbo</artifactId>
         </dependency>
@@ -61,21 +76,6 @@
         <dependency>
             <groupId>org.apache.rocketmq</groupId>
             <artifactId>rocketmq-client</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.zjx</groupId>
-            <artifactId>zjx-statistics-console-api</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.zjx</groupId>
-            <artifactId>zjx-statistics-client</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.zjx</groupId>
-            <artifactId>zjx-statistics-commons</artifactId>
         </dependency>
 
     </dependencies>
