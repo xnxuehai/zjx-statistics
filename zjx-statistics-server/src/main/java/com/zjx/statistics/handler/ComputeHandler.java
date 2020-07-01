@@ -62,6 +62,7 @@ public class ComputeHandler {
                 log.info("compute string success");
             } else if (SET.equals(hashFile.getDataType())) {
                 redisTemplate.opsForSet().add(key, transDTO.getKey());
+                redisTemplate.expire(key, hashFile.getExpired(), TimeUnit.SECONDS);
                 log.info("compute set success");
             } else {
 

@@ -55,6 +55,9 @@ public abstract class AbstractBusinessHandler {
 
     /**
      * 计算
+     *
+     * @param transDTO
+     * @param key
      */
     abstract void computeAndSave(TransDTO transDTO, String key);
 

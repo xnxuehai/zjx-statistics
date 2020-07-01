@@ -114,9 +114,10 @@ public abstract class StatisticsAspectSupport implements InitializingBean, Smart
                         e.printStackTrace();
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
+                    }finally {
+                        // 通过sendResult返回消息是否成功送达
+                        log.info("sendResult:{}", sendResult);
                     }
-                    // 通过sendResult返回消息是否成功送达
-                    log.info("sendResult:{}", sendResult);
                 }
             });
         } catch (StatisticsOperationInvoker.ThrowableWrapper throwableWrapper) {
