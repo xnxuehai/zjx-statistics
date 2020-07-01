@@ -1,4 +1,8 @@
-package com.zjx.statistics.engine;
+package com.zjx.statistics.engine.impl;
+
+import com.zjx.statistics.engine.Algorithm;
+import com.zjx.statistics.engine.ComputeContext;
+import com.zjx.statistics.engine.ComputeContextData;
 
 /**
  * 无属性累加算法

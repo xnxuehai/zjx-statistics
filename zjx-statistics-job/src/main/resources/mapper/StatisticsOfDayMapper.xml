@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zjx.statistics.business.mapper.StatisticsOfDayMapper">
+    <resultMap id="BaseResultMap" type="com.zjx.statistics.business.domain.StatisticsOfDay">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="module_id" property="moduleId" jdbcType="INTEGER"/>
+        <result column="cache_field" property="cacheField" jdbcType="VARCHAR"/>
+        <result column="cache_field_value" property="cacheFieldValue" jdbcType="VARCHAR"/>
+        <result column="count_date" property="countDate" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="DATE"/>
+        <result column="update_time" property="updateTime" jdbcType="DATE"/>
+    </resultMap>
+
+    <sql id="baseColumn">
+        id, module_id, cache_field, cache_field_value, count_date, create_time, update_time
+    </sql>
+
+    <!-- 添加统计信息 -->
+    <insert id="save" parameterType="com.zjx.statistics.business.domain.StatisticsOfDay">
+        insert into
+            statistics_of_day (module_id,cache_field,cache_field_value,count_date)
+        values
+            (#{moduleId},#{cacheField},#{cacheFieldValue},#{countDate})
+    </insert>
+</mapper>

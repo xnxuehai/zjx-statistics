@@ -2,7 +2,6 @@ package com.zjx.statistics.cache;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.zjx.statistics.dto.StatisticsFieldDTO;
-import com.zjx.statistics.engine.impl.NoAttributeAdd;
 import com.zjx.statistics.facade.StatisticsFieldFacade;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
@@ -13,6 +12,7 @@ import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+
 
 /**
  * 初始化缓存
@@ -33,9 +33,6 @@ public class InitCache implements CommandLineRunner, ApplicationContextAware {
 	public void run(String... args) {
 		// 初始化 统计 field
 		initStatisticsField();
-
-		// 初始化 规则
-		initAlgorithm();
 	}
 
 	@Override
@@ -51,6 +48,7 @@ public class InitCache implements CommandLineRunner, ApplicationContextAware {
 				// 添加 StatisticsMeta
 				CacheStore.getInstance().addFieldCache(statisticsFieldDTO.getCacheField(),statisticsFieldDTO);
 			}
+			log.info("初始化统计属性缓存缓存结束....");
 		} catch (Exception e) {
 			log.error("初始化统计属性缓存异常!!!");
 			e.printStackTrace();
@@ -58,23 +56,7 @@ public class InitCache implements CommandLineRunner, ApplicationContextAware {
 			// 关闭容器
 			abstractApplicationContext.close();
 		}
-		log.info("初始化统计属性缓存缓存结束....");
-	}
 
-
-	private void initAlgorithm() {
-		log.info("实例化规则实例开始....");
-		try {
-			// 实例化 无属性累加规则
-			CacheStore.getInstance().addAlgorithm(NoAttributeAdd.class.getName(), new NoAttributeAdd());
-		} catch (Exception e) {
-			log.error("实例化规则实例异常!!!");
-			e.printStackTrace();
-			AbstractApplicationContext abstractApplicationContext = (AbstractApplicationContext) applicationContext;
-			// 关闭容器
-			abstractApplicationContext.close();
-		}
-		log.info("实例化规则实例结束....");
 	}
 
 }

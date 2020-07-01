@@ -57,6 +57,7 @@ public class ComputeHandler {
                 // 计算
                 computingEngine.operate();
                 computeContextData = ComputeContext.getInstance().getComputeContextData();
+                // TODO 不设置过期时间未实现
                 redisTemplate.opsForValue().set(key, computeContextData.getAccumulate(), hashFile.getExpired(), TimeUnit.SECONDS);
                 ComputeContext.getInstance().remove();
                 log.info("compute string success");
