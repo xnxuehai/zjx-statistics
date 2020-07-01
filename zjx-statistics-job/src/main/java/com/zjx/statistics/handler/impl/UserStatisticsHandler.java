@@ -31,13 +31,6 @@ public class UserStatisticsHandler implements StatisticsHandler {
     @Resource
     private StatisticsOfDayMapper statisticsOfDayMapper;
 
-    static List<String> key = new ArrayList<>();
-
-    static {
-        key.add("$date$:new:user:count");
-        key.add("$date$:new:user:set");
-    }
-
     @Override
     public void process() {
         log.info("进行用户模块统计的持久化操作");

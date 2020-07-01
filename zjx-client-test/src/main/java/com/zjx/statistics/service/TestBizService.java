@@ -27,4 +27,7 @@ public interface TestBizService {
      */
     @ZjxStatistics(key = "userId", module = "$date$:new:user:count")
     void access(String userId);
+
+    @ZjxStatistics(key = "userId", module = "$date$:voice:button:count")
+    void voice(String userId);
 }

@@ -25,4 +25,10 @@ public class TestBizServiceImpl implements TestBizService {
         log.info("{} -- access 入参:{}", Thread.currentThread().getName(), userId);
         log.info("{} -- access 业务逻辑持久化操作...", Thread.currentThread().getName());
     }
+
+    @Override
+    public void voice(String userId) {
+        log.info("{} -- voice 入参:{}", Thread.currentThread().getName(), userId);
+        log.info("{} -- voice 业务逻辑持久化操作...", Thread.currentThread().getName());
+    }
 }

@@ -58,7 +58,7 @@ public class ElasticJobConfig {
 
     private LiteJobConfiguration getLiteJobConfiguration() {
         // 定义作业核心配置 0 0 0/1 * * ? *
-        JobCoreConfiguration simpleCoreConfig = JobCoreConfiguration.newBuilder("JobForDay", "0/30 * * * * ? *", 1).build();
+        JobCoreConfiguration simpleCoreConfig = JobCoreConfiguration.newBuilder("JobForDay", "0 0 1 1/1 * ? ", 1).build();
         // 定义SIMPLE类型配置
         SimpleJobConfiguration simpleJobConfig = new SimpleJobConfiguration(simpleCoreConfig, JobForDay.class.getCanonicalName());
         // 定义Lite作业根配置

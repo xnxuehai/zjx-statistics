@@ -38,6 +38,9 @@ public class TestController {
             case 2:
                 testBizService.access(data.getUserId().toString());
                 break;
+            case 3:
+                testBizService.voice(data.getUserId().toString());
+                break;
             default:
                 log.info("没有对应的操作....");
                 break;
