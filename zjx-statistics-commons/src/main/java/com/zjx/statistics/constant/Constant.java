@@ -30,12 +30,27 @@ public class Constant {
 
     public static final String CACHE_COUNT_STR = "cache:count:user";
 
+    /**
+     * 无效标识
+     */
     public static final String INVALID_FLAG = "-1";
 
-    public static final Integer STRING = 1;
-    public static final Integer SET = 2;
-    public static final Integer HASH = 3;
-    public static final Integer Z_SET = 4;
+    /**
+     * Redis string 类型
+     */
+    public static final int STRING = 1;
+    /**
+     * Redis set 类型
+     */
+    public static final int SET = 2;
+    /**
+     * Redis hash 结构
+     */
+    public static final int HASH = 3;
+    /**
+     * Redis zSet 结构
+     */
+    public static final int Z_SET = 4;
 
 }
 

@@ -1,6 +1,9 @@
 package com.zjx.statistics.engine;
 
+import com.zjx.statistics.transport.HashField;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * @author Aaron
@@ -9,7 +12,11 @@ import lombok.Data;
 @Data
 public class ComputeContextData {
     /**
-     * 累加数据
+     * 待统计 数
      */
     private Integer accumulate;
+    /**
+     * 待统计 k , v
+     */
+    private List<HashField> hashFields;
 }

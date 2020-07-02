@@ -2,6 +2,7 @@ package com.zjx.statistics.cache;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.zjx.statistics.dto.StatisticsFieldDTO;
+import com.zjx.statistics.engine.impl.AttributeAdd;
 import com.zjx.statistics.engine.impl.NoAttributeAdd;
 import com.zjx.statistics.facade.StatisticsFieldFacade;
 import lombok.extern.slf4j.Slf4j;
@@ -24,57 +25,59 @@ import java.util.List;
 @Component
 public class InitCache implements CommandLineRunner, ApplicationContextAware {
 
-	private ApplicationContext applicationContext;
+    private ApplicationContext applicationContext;
 
-	@Reference
-	private StatisticsFieldFacade statisticsFieldFacade;
+    @Reference
+    private StatisticsFieldFacade statisticsFieldFacade;
 
-	@Override
-	public void run(String... args) {
-		// 初始化 统计 field
-		initStatisticsField();
+    @Override
+    public void run(String... args) {
+        // 初始化 统计 field
+        initStatisticsField();
 
-		// 初始化 规则
-		initAlgorithm();
-	}
+        // 初始化 规则
+        initAlgorithm();
+    }
 
-	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		this.applicationContext = applicationContext;
-	}
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
+    }
 
-	private void initStatisticsField() {
-		log.info("初始化统计属性缓存缓存开始....");
-		try {
-			List<StatisticsFieldDTO> statisticsFieldAll = statisticsFieldFacade.getStatisticsFieldAll();
-			for (StatisticsFieldDTO statisticsFieldDTO : statisticsFieldAll) {
-				// 添加 StatisticsMeta
-				CacheStore.getInstance().addFieldCache(statisticsFieldDTO.getCacheField(),statisticsFieldDTO);
-			}
-		} catch (Exception e) {
-			log.error("初始化统计属性缓存异常!!!");
-			e.printStackTrace();
-			AbstractApplicationContext abstractApplicationContext = (AbstractApplicationContext) applicationContext;
-			// 关闭容器
-			abstractApplicationContext.close();
-		}
-		log.info("初始化统计属性缓存缓存结束....");
-	}
+    private void initStatisticsField() {
+        log.info("initStatisticsField start");
+        try {
+            List<StatisticsFieldDTO> statisticsFieldAll = statisticsFieldFacade.getStatisticsFieldAll();
+            for (StatisticsFieldDTO statisticsFieldDTO : statisticsFieldAll) {
+                // 添加 StatisticsMeta
+                CacheStore.getInstance().addFieldCache(statisticsFieldDTO.getCacheField(), statisticsFieldDTO);
+            }
+        } catch (Exception e) {
+            log.error("initStatisticsField error");
+            e.printStackTrace();
+            AbstractApplicationContext abstractApplicationContext = (AbstractApplicationContext) applicationContext;
+            // 关闭容器
+            abstractApplicationContext.close();
+        }
+        log.info("initStatisticsField end");
+    }
 
 
-	private void initAlgorithm() {
-		log.info("实例化规则实例开始....");
-		try {
-			// 实例化 无属性累加规则
-			CacheStore.getInstance().addAlgorithm(NoAttributeAdd.class.getName(), new NoAttributeAdd());
-		} catch (Exception e) {
-			log.error("实例化规则实例异常!!!");
-			e.printStackTrace();
-			AbstractApplicationContext abstractApplicationContext = (AbstractApplicationContext) applicationContext;
-			// 关闭容器
-			abstractApplicationContext.close();
-		}
-		log.info("实例化规则实例结束....");
-	}
+    private void initAlgorithm() {
+        log.info("initAlgorithm start");
+        try {
+            // 实例化 无属性累加规则
+            CacheStore.getInstance().addAlgorithm(NoAttributeAdd.class.getName(), new NoAttributeAdd());
+            // 实例化 按照树形累加
+            CacheStore.getInstance().addAlgorithm(AttributeAdd.class.getName(), new AttributeAdd());
+        } catch (Exception e) {
+            log.error("initAlgorithm error");
+            e.printStackTrace();
+            AbstractApplicationContext abstractApplicationContext = (AbstractApplicationContext) applicationContext;
+            // 关闭容器
+            abstractApplicationContext.close();
+        }
+        log.info("initAlgorithm end");
+    }
 
 }

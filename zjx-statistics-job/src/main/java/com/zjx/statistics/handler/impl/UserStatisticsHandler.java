@@ -17,6 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static com.zjx.statistics.constant.Constant.*;
+import static com.zjx.statistics.constant.Constant.Z_SET;
+
 /**
  * 有关用户相关的统计信息持久化
  *
@@ -33,37 +36,41 @@ public class UserStatisticsHandler implements StatisticsHandler {
 
     @Override
     public void process() {
-        log.info("进行用户模块统计的持久化操作");
         addUserCount();
     }
 
     private void addUserCount() {
         Map<String, StatisticsFieldDTO> store = CacheStore.getInstance().getStore();
+
         store.forEach((k, v) -> {
             String key = processKey(k);
+            Object obj = null;
+            StatisticsOfDay statisticsOfDay = new StatisticsOfDay();
+            statisticsOfDay.setModuleId(1);
+            statisticsOfDay.setCacheField(k);
+            statisticsOfDay.setCountDate(DateUtil.getCurrentLocalDateTime(Constant.DATE_FORMAT_STR));
 
-            if (Constant.STRING.equals(v.getDataType())) {
-                Object obj = redisTemplate.opsForValue().get(key);
-                StatisticsOfDay statisticsOfDay = new StatisticsOfDay();
-                statisticsOfDay.setModuleId(1);
-                statisticsOfDay.setCacheField(k);
-                statisticsOfDay.setCacheFieldValue(JSON.toJSONString(obj));
-                statisticsOfDay.setCountDate(DateUtil.getCurrentLocalDateTime(Constant.DATE_FORMAT_STR));
-                statisticsOfDayMapper.save(statisticsOfDay);
-                log.info("save success");
-            } else if (Constant.SET.equals(v.getDataType())) {
-                Object obj = redisTemplate.opsForSet().members(key);
-                StatisticsOfDay statisticsOfDay = new StatisticsOfDay();
-                statisticsOfDay.setModuleId(1);
-                statisticsOfDay.setCacheField(k);
-                statisticsOfDay.setCacheFieldValue(JSON.toJSONString(obj));
-                statisticsOfDay.setCountDate(DateUtil.getCurrentLocalDateTime(Constant.DATE_FORMAT_STR));
-                statisticsOfDayMapper.save(statisticsOfDay);
-                log.info("save success");
-            } else {
-
+            switch (v.getDataType().intValue()) {
+                case STRING:
+                    obj = redisTemplate.opsForValue().get(key);
+                    statisticsOfDay.setCacheFieldValue(JSON.toJSONString(obj));
+                    statisticsOfDayMapper.save(statisticsOfDay);
+                    log.info("save string success");
+                    break;
+                case SET:
+                    obj = redisTemplate.opsForSet().members(key);
+                    statisticsOfDay.setCacheFieldValue(JSON.toJSONString(obj));
+                    statisticsOfDayMapper.save(statisticsOfDay);
+                    log.info("save set success");
+                    break;
+                case HASH:
+                    break;
+                case Z_SET:
+                    break;
+                default:
+                    log.error("invalid compute type");
+                    break;
             }
-
         });
 
     }

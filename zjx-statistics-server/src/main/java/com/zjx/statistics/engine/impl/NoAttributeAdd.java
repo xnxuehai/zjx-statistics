@@ -3,6 +3,7 @@ package com.zjx.statistics.engine.impl;
 import com.zjx.statistics.engine.Algorithm;
 import com.zjx.statistics.engine.ComputeContext;
 import com.zjx.statistics.engine.ComputeContextData;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 无属性累加算法
