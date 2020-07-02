@@ -34,4 +34,12 @@ public interface IStatisticsFieldService {
      * @return List<StatisticsRule>
      */
     List<StatisticsRule> findAllRule();
+
+    /**
+     * 根据 CacheField 获取 信息
+     *
+     * @param cacheField cacheField
+     * @return StatisticsField
+     */
+    StatisticsField selectByCacheField(String cacheField);
 }

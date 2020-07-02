@@ -1,9 +1,11 @@
 package com.zjx.statistics.handler;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.zjx.statistics.cache.CacheStore;
 import com.zjx.statistics.dto.StatisticsFieldDTO;
 import com.zjx.statistics.dto.StatisticsFieldHashRuleDTO;
+import com.zjx.statistics.facade.StatisticsFieldFacade;
 import com.zjx.statistics.transport.TransDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.exception.MQBrokerException;
@@ -31,6 +33,8 @@ import java.util.Map;
 public class ValidateHandler {
     @Resource(name = "producer")
     private DefaultMQProducer producer;
+    @Reference
+    private StatisticsFieldFacade statisticsFieldFacade;
 
     /**
      * 验证数据是否合法
@@ -48,6 +52,13 @@ public class ValidateHandler {
 
         StatisticsFieldDTO statisticsFieldDTO = CacheStore.getInstance().getHashFile(transDTO.getModule());
         if (statisticsFieldDTO == null) {
+            // TODO 这个查库方式 在一个位置统一管理，提供门面接口。获取 数据库中 数据
+            StatisticsFieldDTO statisticsFieldByCacheField = statisticsFieldFacade.getStatisticsFieldByCacheField(transDTO.getModule());
+            if (statisticsFieldByCacheField != null) {
+                // 添加 StatisticsMeta
+                CacheStore.getInstance().addFieldCache(statisticsFieldByCacheField.getCacheField(), statisticsFieldByCacheField);
+                return true;
+            }
             log.error("没有找到指定的统计数据! key:{}", transDTO.getModule());
             sendMessage(transDTO.getModule(), "未找到对应的 field key");
             return false;

@@ -41,4 +41,8 @@ public class StatisticsFieldServiceImpl implements IStatisticsFieldService {
         return statisticsRuleMapper.findAll();
     }
 
+    @Override
+    public StatisticsField selectByCacheField(String cacheField) {
+        return statisticsFieldMapper.selectByCacheField(cacheField);
+    }
 }

@@ -23,4 +23,11 @@
         from statistics_field
     </select>
 
+    <!--根据 cacheField 获取信息-->
+    <select id="selectByCacheField" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumn"/>
+        from statistics_field
+        where cache_field = #{cacheField}
+    </select>
 </mapper>

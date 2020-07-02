@@ -17,4 +17,12 @@ public interface StatisticsFieldFacade {
      * @return List<StatisticsFieldDTO>
      */
     List<StatisticsFieldDTO> getStatisticsFieldAll();
+
+    /**
+     * 根据 cacheField 获取信息
+     *
+     * @param cacheField cacheField
+     * @return
+     */
+    StatisticsFieldDTO getStatisticsFieldByCacheField(String cacheField);
 }

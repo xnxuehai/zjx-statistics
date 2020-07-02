@@ -1,6 +1,7 @@
 package com.zjx.statistics.mapper;
 
 import com.zjx.statistics.domain.StatisticsField;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,4 +16,12 @@ public interface StatisticsFieldMapper {
      * @return List<StatisticsField>
      */
     List<StatisticsField> selectAll();
+
+    /**
+     * 根据 CacheField 获取 信息
+     *
+     * @param cacheField cacheField
+     * @return StatisticsField
+     */
+    StatisticsField selectByCacheField(@Param("cacheField") String cacheField);
 }

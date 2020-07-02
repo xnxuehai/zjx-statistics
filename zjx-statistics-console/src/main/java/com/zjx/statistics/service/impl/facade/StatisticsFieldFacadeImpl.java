@@ -18,8 +18,8 @@ import java.util.*;
  * @author Aaron
  * @date 2020/6/29 11:03
  */
-@Service
 @Slf4j
+@Service
 public class StatisticsFieldFacadeImpl implements StatisticsFieldFacade {
     @Resource
     private IStatisticsFieldService statisticsFieldService;
@@ -28,6 +28,27 @@ public class StatisticsFieldFacadeImpl implements StatisticsFieldFacade {
     public List<StatisticsFieldDTO> getStatisticsFieldAll() {
         return parseField();
     }
+
+    @Override
+    public StatisticsFieldDTO getStatisticsFieldByCacheField(String cacheField) {
+        log.info("getStatisticsFieldByCacheField param:{}", cacheField);
+        StatisticsFieldDTO statisticsFieldDTO = null;
+
+        StatisticsField statisticsField = statisticsFieldService.selectByCacheField(cacheField);
+        if (statisticsField != null) {
+            statisticsFieldDTO = new StatisticsFieldDTO();
+            // 解析计算规则
+            Map<Integer, String> ruleMap = parseRule();
+
+            BeanUtils.copyProperties(statisticsField, statisticsFieldDTO);
+
+            List<StatisticsFieldHashRuleDTO> hashFieldAndRule = getHashFieldAndRule(statisticsField.getId(), ruleMap);
+            statisticsFieldDTO.setHashFieldList(hashFieldAndRule);
+        }
+        log.info("statisticsFieldDTO:{}", statisticsFieldDTO);
+        return statisticsFieldDTO;
+    }
+
 
     /**
      * 解析 field 数据
@@ -47,23 +68,36 @@ public class StatisticsFieldFacadeImpl implements StatisticsFieldFacade {
         StatisticsFieldDTO statisticsFieldDTO;
         for (StatisticsField statisticsField : allField) {
             statisticsFieldDTO = new StatisticsFieldDTO();
-            BeanUtils.copyProperties(statisticsField,statisticsFieldDTO);
+            BeanUtils.copyProperties(statisticsField, statisticsFieldDTO);
 
-            // 根据统计属性获取 hash field 和 计算规则
-            List<StatisticsFieldFollow> hashFieldAndRule = statisticsFieldService.findByFieldId(statisticsField.getId());
-            List<StatisticsFieldHashRuleDTO> hashList = new ArrayList<>();
-            StatisticsFieldHashRuleDTO statisticsFieldHashRuleDTO;
-            for (StatisticsFieldFollow statisticsFieldFollow : hashFieldAndRule) {
-                statisticsFieldHashRuleDTO = new StatisticsFieldHashRuleDTO();
-                statisticsFieldHashRuleDTO.setHashField(statisticsFieldFollow.getHashField());
-                statisticsFieldHashRuleDTO.setRuleEngine(ruleMap.get(statisticsFieldFollow.getRuleId()));
-                hashList.add(statisticsFieldHashRuleDTO);
-                statisticsFieldDTO.setHashFieldList(hashList);
-            }
+            List<StatisticsFieldHashRuleDTO> hashFieldAndRule = getHashFieldAndRule(statisticsField.getId(), ruleMap);
+            statisticsFieldDTO.setHashFieldList(hashFieldAndRule);
+
             list.add(statisticsFieldDTO);
         }
         log.info("list:{}", list);
         return list;
+    }
+
+    /**
+     * 解析属性
+     *
+     * @param id      id
+     * @param ruleMap ruleMap
+     * @return List<StatisticsFieldHashRuleDTO>
+     */
+    private List<StatisticsFieldHashRuleDTO> getHashFieldAndRule(Integer id, Map<Integer, String> ruleMap) {
+        // 根据统计属性获取 hash field 和 计算规则
+        List<StatisticsFieldFollow> hashFieldAndRule = statisticsFieldService.findByFieldId(id);
+        List<StatisticsFieldHashRuleDTO> hashList = new ArrayList<>();
+        StatisticsFieldHashRuleDTO statisticsFieldHashRuleDTO;
+        for (StatisticsFieldFollow statisticsFieldFollow : hashFieldAndRule) {
+            statisticsFieldHashRuleDTO = new StatisticsFieldHashRuleDTO();
+            statisticsFieldHashRuleDTO.setHashField(statisticsFieldFollow.getHashField());
+            statisticsFieldHashRuleDTO.setRuleEngine(ruleMap.get(statisticsFieldFollow.getRuleId()));
+            hashList.add(statisticsFieldHashRuleDTO);
+        }
+        return hashList;
     }
 
     /**
