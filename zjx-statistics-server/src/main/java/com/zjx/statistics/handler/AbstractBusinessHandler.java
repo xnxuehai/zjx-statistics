@@ -25,15 +25,20 @@ public abstract class AbstractBusinessHandler {
         }
 
         // 处理 key
-        String key = processKey(transDTO.getModule());
+        String key = processKey(transDTO.getModule(), transDTO.getKey().toString());
 
         // 进行计算 和 存储
         computeAndSave(transDTO, key);
     }
 
-    private String processKey(String key) {
-        String regex = "\\$date\\$";
-        key = key.replaceAll(regex, DateUtil.getCurrentLocalDateTime(Constant.DATE_FORMAT_STR));
+    private String processKey(String key, String value) {
+        // TODO 将要匹配的正则当成一个动态的配置
+
+        String regDate = "\\$date\\$";
+        String reUserId = "\\$userId\\$";
+
+        key = key.replaceAll(regDate, DateUtil.getCurrentLocalDateTime(Constant.DATE_FORMAT_STR));
+        key = key.replaceAll(reUserId, value);
         return key;
     }
 
@@ -41,7 +46,7 @@ public abstract class AbstractBusinessHandler {
      * 解析
      *
      * @param json json
-     * @return
+     * @reUserId
      */
     abstract TransDTO parse(String json);
 

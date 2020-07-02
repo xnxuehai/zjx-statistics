@@ -40,33 +40,43 @@ public class ValidateHandler {
      */
     public boolean validate(TransDTO transDTO) {
         // 数据校验
+        if (transDTO.getKey() == null) {
+            log.error("key 的值为 null :{}", transDTO.getModule());
+            sendMessage(transDTO.getModule(), "传入的 key 值为 null");
+            return false;
+        }
+
         StatisticsFieldDTO statisticsFieldDTO = CacheStore.getInstance().getHashFile(transDTO.getModule());
         if (statisticsFieldDTO == null) {
             log.error("没有找到指定的统计数据! key:{}", transDTO.getModule());
-            SendResult sendResult = null;
-            try {
-                Map<String, String> errorMap = new HashMap<>();
-                errorMap.put("moduleName", transDTO.getModule());
-                errorMap.put("desc", "未找到对应的 field key");
-                Message msg = new Message("error_log_topic", "error", JSON.toJSONString(errorMap).getBytes(RemotingHelper.DEFAULT_CHARSET));
-                // 发送消息到一个Broker
-                sendResult = producer.send(msg);
-            } catch (MQClientException e) {
-                e.printStackTrace();
-            } catch (RemotingException e) {
-                e.printStackTrace();
-            } catch (MQBrokerException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } finally {
-                // 通过sendResult返回消息是否成功送达
-                log.info("sendResult:{}", sendResult);
-            }
+            sendMessage(transDTO.getModule(), "未找到对应的 field key");
             return false;
         }
         return true;
+    }
+
+    private void sendMessage(String moduleName, String message) {
+        SendResult sendResult = null;
+        try {
+            Map<String, String> errorMap = new HashMap<>();
+            errorMap.put("moduleName", moduleName);
+            errorMap.put("desc", message);
+            Message msg = new Message("error_log_topic", "error", JSON.toJSONString(errorMap).getBytes(RemotingHelper.DEFAULT_CHARSET));
+            // 发送消息到一个Broker
+            sendResult = producer.send(msg);
+        } catch (MQClientException e) {
+            e.printStackTrace();
+        } catch (RemotingException e) {
+            e.printStackTrace();
+        } catch (MQBrokerException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } finally {
+            // 通过sendResult返回消息是否成功送达
+            log.info("sendResult:{}", sendResult);
+        }
     }
 }
