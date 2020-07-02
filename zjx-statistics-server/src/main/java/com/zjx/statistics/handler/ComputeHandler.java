@@ -121,7 +121,6 @@ public class ComputeHandler {
         ZSetOperations zSetOperations = redisTemplate.opsForZSet();
 
         // TODO 此处需要计算，后期需要加分布式锁
-
         Double score = zSetOperations.score(Constant.USER_RANK_CACHE_KEY, userId);
         log.info("score:{}", score);
         if (score == null) {
