@@ -24,6 +24,8 @@ public class RocketMqConfig {
     private String producerGroup;
     @Value("${statistics.mq.nameSrvAddr:121.43.181.38:9876}")
     private String nameSrvAddr;
+    private static final String TOPIC = "statistics_metadata_info_topic";
+    private static final String TAG = "info";
 
     @Bean
     public DefaultMQPushConsumer consumer() {
@@ -37,14 +39,14 @@ public class RocketMqConfig {
             consumer.setVipChannelEnabled(false);
 
             // 订阅一个或者多个Topic，以及Tag来过滤需要消费的消息
-            consumer.subscribe("statistics_metadata_info_topic", "info");
+            consumer.subscribe(TOPIC, TAG);
             // 注册回调实现类来处理从broker拉取回来的消息
             consumer.registerMessageListener(statisticsMessageListener());
             // 启动消费者实例
             consumer.start();
-            log.info("消费者启动成功...");
+            log.info("consumer start success!");
         } catch (MQClientException e) {
-            log.error("消费者启动失败!");
+            log.error("consumer start fail!");
             e.printStackTrace();
         }
         return consumer;

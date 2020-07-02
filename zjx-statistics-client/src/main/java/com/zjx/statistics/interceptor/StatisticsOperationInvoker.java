@@ -12,17 +12,17 @@ public interface StatisticsOperationInvoker {
      * 调用 目标方法
      *
      * @return
-     * @throws ThrowableWrapper
+     * @throws ThrowableWrapperException
      */
-    Object invoke() throws ThrowableWrapper;
+    Object invoke() throws ThrowableWrapperException;
 
 
     @SuppressWarnings("serial")
-    class ThrowableWrapper extends RuntimeException {
+    class ThrowableWrapperException extends RuntimeException {
 
         private final Throwable original;
 
-        public ThrowableWrapper(Throwable original) {
+        public ThrowableWrapperException(Throwable original) {
             super(original.getMessage(), original);
             this.original = original;
         }

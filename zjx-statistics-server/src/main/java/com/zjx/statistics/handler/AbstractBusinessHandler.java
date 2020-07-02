@@ -39,6 +39,7 @@ public abstract class AbstractBusinessHandler {
 
         key = key.replaceAll(regDate, DateUtil.getCurrentLocalDateTime(Constant.DATE_FORMAT_STR));
         key = key.replaceAll(reUserId, value);
+        
         return key;
     }
 
@@ -46,7 +47,7 @@ public abstract class AbstractBusinessHandler {
      * 解析
      *
      * @param json json
-     * @reUserId
+     * @return TransDTO
      */
     abstract TransDTO parse(String json);
 

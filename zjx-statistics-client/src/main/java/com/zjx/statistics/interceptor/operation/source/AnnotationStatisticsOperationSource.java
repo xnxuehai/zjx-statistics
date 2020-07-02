@@ -70,7 +70,12 @@ public class AnnotationStatisticsOperationSource extends AbstractStatisticsOpera
 
     @FunctionalInterface
     protected interface StatisticsOperationProvider {
-
+        /**
+         * 解析
+         *
+         * @param parser parser
+         * @return
+         */
         @Nullable
         Collection<AbstractStatisticsOperation> getStatisticsOperations(StatisticsAnnotationParser parser);
     }

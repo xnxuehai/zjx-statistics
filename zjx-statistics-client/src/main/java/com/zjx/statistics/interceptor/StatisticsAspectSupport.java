@@ -33,6 +33,8 @@ import java.util.concurrent.*;
 
 public abstract class StatisticsAspectSupport implements InitializingBean, SmartInitializingSingleton {
     private static final Logger log = LoggerFactory.getLogger(StatisticsAspectSupport.class);
+    private static final String TOPIC = "statistics_metadata_info_topic";
+    private static final String TAG = "info";
 
     @Nullable
     private StatisticsOperationSource statisticsOperationSource;
@@ -101,7 +103,7 @@ public abstract class StatisticsAspectSupport implements InitializingBean, Smart
                 SendResult sendResult = null;
                 for (String json : jsonList) {
                     try {
-                        Message msg = new Message("statistics_metadata_info_topic", "info", json.getBytes(RemotingHelper.DEFAULT_CHARSET));
+                        Message msg = new Message(TOPIC, TAG, json.getBytes(RemotingHelper.DEFAULT_CHARSET));
                         // 发送消息到一个Broker
                         sendResult = producer.send(msg);
                     } catch (MQClientException e) {
@@ -114,13 +116,13 @@ public abstract class StatisticsAspectSupport implements InitializingBean, Smart
                         e.printStackTrace();
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
-                    }finally {
+                    } finally {
                         // 通过sendResult返回消息是否成功送达
                         log.info("sendResult:{}", sendResult);
                     }
                 }
             });
-        } catch (StatisticsOperationInvoker.ThrowableWrapper throwableWrapper) {
+        } catch (StatisticsOperationInvoker.ThrowableWrapperException throwableWrapper) {
             log.error("[{}] 统计探针执行被代理对象真实方法出现异常: {}", Thread.currentThread().getName(), throwableWrapper.getMessage());
             throwableWrapper.printStackTrace();
             // TODO 此处抛出异常是为了防止 事务回滚的问题，这个问题待测试。
