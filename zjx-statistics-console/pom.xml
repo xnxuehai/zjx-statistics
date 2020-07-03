@@ -16,6 +16,14 @@
     <name>zjx-statistics-console</name>
     <description>zjx-statistics-console</description>
 
+    <repositories><!-- 代码库 -->
+        <repository>
+            <id>maven-public</id>
+            <name>maven-public</name>
+            <url>http://39.97.252.102:8081/repository/maven-public/</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
