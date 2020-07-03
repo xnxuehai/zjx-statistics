@@ -48,7 +48,7 @@ public class UserStatisticsHandler implements StatisticsHandler {
             StatisticsOfDay statisticsOfDay = new StatisticsOfDay();
             statisticsOfDay.setModuleId(1);
             statisticsOfDay.setCacheField(k);
-            statisticsOfDay.setCountDate(DateUtil.getCurrentLocalDateTime(Constant.DATE_FORMAT_STR));
+            statisticsOfDay.setCountDate(DateUtil.getBeforeDateTime(Constant.DATE_FORMAT_STR));
 
             switch (v.getDataType().intValue()) {
                 case STRING:
@@ -64,8 +64,10 @@ public class UserStatisticsHandler implements StatisticsHandler {
                     log.info("save set success");
                     break;
                 case HASH:
+                    log.info("save hash success");
                     break;
                 case Z_SET:
+                    log.info("save zSet success");
                     break;
                 default:
                     log.error("invalid compute type");
@@ -77,7 +79,7 @@ public class UserStatisticsHandler implements StatisticsHandler {
 
     private String processKey(String key) {
         String regex = "\\$date\\$";
-        key = key.replaceAll(regex, DateUtil.getCurrentLocalDateTime(Constant.DATE_FORMAT_STR));
+        key = key.replaceAll(regex, DateUtil.getBeforeDateTime(Constant.DATE_FORMAT_STR));
         return key;
     }
 }

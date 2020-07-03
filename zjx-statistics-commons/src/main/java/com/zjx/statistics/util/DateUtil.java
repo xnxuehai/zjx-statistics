@@ -34,6 +34,18 @@ public class DateUtil {
     }
 
     /**
+     * 获取前一天
+     *
+     * @param pattern pattern
+     * @return
+     */
+    public static String getBeforeDateTime(String pattern) {
+        LocalDateTime localDateTime = LocalDateTime.now().minusDays(1);
+        DateTimeFormatter formatter = createCacheFormatter(pattern);
+        return localDateTime.format(formatter);
+    }
+
+    /**
      * 创建特定格式的解析器
      *
      * @param pattern
