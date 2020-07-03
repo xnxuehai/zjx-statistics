@@ -137,7 +137,7 @@ public class ComputeHandler {
         computingEngine.operate();
         computeContextData = ComputeContext.getInstance().getComputeContextData();
 
-        zSetOperations.add(key, transDTO.getKey(), computeContextData.getScore().doubleValue());
+        zSetOperations.add(key, Integer.valueOf(transDTO.getKey().toString()), computeContextData.getScore().doubleValue());
 
         ComputeContext.getInstance().remove();
     }
