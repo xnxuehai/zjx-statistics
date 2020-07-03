@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.zjx.statistics.dto.StatisticsFieldDTO;
 import com.zjx.statistics.engine.impl.AttributeAdd;
 import com.zjx.statistics.engine.impl.NoAttributeAdd;
+import com.zjx.statistics.engine.impl.UserRank;
 import com.zjx.statistics.facade.StatisticsFieldFacade;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
@@ -68,8 +69,10 @@ public class InitCache implements CommandLineRunner, ApplicationContextAware {
         try {
             // 实例化 无属性累加规则
             CacheStore.getInstance().addAlgorithm(NoAttributeAdd.class.getName(), new NoAttributeAdd());
-            // 实例化 按照树形累加
+            // 实例化 按照属性累加
             CacheStore.getInstance().addAlgorithm(AttributeAdd.class.getName(), new AttributeAdd());
+            // 实例化 学生排行规则
+            CacheStore.getInstance().addAlgorithm(UserRank.class.getName(), new UserRank());
         } catch (Exception e) {
             log.error("initAlgorithm error");
             e.printStackTrace();

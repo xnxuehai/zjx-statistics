@@ -27,6 +27,10 @@ public class StatisticsFieldFollow {
      */
     private Integer ruleId;
     /**
+     * 排序字段
+     */
+    private Integer sort;
+    /**
      * 创建时间
      */
     private Date createTime;

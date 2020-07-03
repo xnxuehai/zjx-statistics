@@ -28,6 +28,21 @@ public interface TestBizService {
     @ZjxStatistics(key = "userId", module = "$date$:new:user:count")
     void access(String userId);
 
+    /**
+     * test
+     *
+     * @param userId
+     */
     @ZjxStatistics(key = "userId", module = "$date$:voice:button:count")
     void voice(String userId);
+
+    /**
+     * 学生排行
+     *
+     * @param userId
+     * @param experience
+     * @param medal
+     */
+    @ZjxStatistics(key = "userId", module = "user:rank:cache:key", hashField = {"experience", "medal"})
+    void rank(String userId, Integer experience, Integer medal);
 }

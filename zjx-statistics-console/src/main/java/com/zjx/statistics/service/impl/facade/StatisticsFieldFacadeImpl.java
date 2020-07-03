@@ -95,6 +95,7 @@ public class StatisticsFieldFacadeImpl implements StatisticsFieldFacade {
             statisticsFieldHashRuleDTO = new StatisticsFieldHashRuleDTO();
             statisticsFieldHashRuleDTO.setHashField(statisticsFieldFollow.getHashField());
             statisticsFieldHashRuleDTO.setRuleEngine(ruleMap.get(statisticsFieldFollow.getRuleId()));
+            statisticsFieldHashRuleDTO.setSort(statisticsFieldFollow.getSort());
             hashList.add(statisticsFieldHashRuleDTO);
         }
         return hashList;

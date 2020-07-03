@@ -5,13 +5,14 @@
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="field_id" property="fieldId" jdbcType="INTEGER"/>
         <result column="rule_id" property="ruleId" jdbcType="INTEGER"/>
+        <result column="sort" property="sort" jdbcType="INTEGER"/>
         <result column="hash_field" property="hashField" jdbcType="VARCHAR"/>
         <result column="create_time" property="createTime" jdbcType="DATE"/>
         <result column="update_time" property="updateTime" jdbcType="DATE"/>
     </resultMap>
 
     <sql id="baseColumn">
-        id, field_id, hash_field,rule_id, create_time, update_time
+        id, field_id, hash_field,rule_id,sort, create_time, update_time
     </sql>
 
     <!-- 根据属性id获取从表的 hash 属性 -->

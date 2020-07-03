@@ -14,6 +14,8 @@ public class Data {
     private String status;
     private Integer score;
     private Integer thumbNo;
+    private Integer experience;
+    private Integer medal;
 
     public Integer getFlag() {
         return flag;
@@ -71,6 +73,22 @@ public class Data {
         this.thumbNo = thumbNo;
     }
 
+    public Integer getExperience() {
+        return experience;
+    }
+
+    public void setExperience(Integer experience) {
+        this.experience = experience;
+    }
+
+    public Integer getMedal() {
+        return medal;
+    }
+
+    public void setMedal(Integer medal) {
+        this.medal = medal;
+    }
+
     @Override
     public String toString() {
         return "Data{" +
@@ -81,6 +99,8 @@ public class Data {
                 ", status='" + status + '\'' +
                 ", score=" + score +
                 ", thumbNo=" + thumbNo +
+                ", experience=" + experience +
+                ", medal=" + medal +
                 '}';
     }
 }

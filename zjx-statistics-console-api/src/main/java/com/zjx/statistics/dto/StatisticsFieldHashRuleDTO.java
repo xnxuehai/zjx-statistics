@@ -18,4 +18,8 @@ public class StatisticsFieldHashRuleDTO implements Serializable {
      * 计算规则引擎
      */
     private String ruleEngine;
+    /**
+     * 排序字段
+     */
+    private Integer sort;
 }

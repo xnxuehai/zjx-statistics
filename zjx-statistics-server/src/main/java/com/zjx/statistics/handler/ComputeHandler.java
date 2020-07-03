@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static com.zjx.statistics.constant.Constant.*;
@@ -37,37 +38,41 @@ public class ComputeHandler {
      * 计算并且存储
      *
      * @param transDTO
-     * @param key
+     * @param cacheKey
      */
-    public void compute(TransDTO transDTO, String key) {
+    public void compute(TransDTO transDTO, String cacheKey) {
         // 获取缓存数据
         StatisticsFieldDTO hashFile = CacheStore.getInstance().getHashFile(transDTO.getModule());
 
-        for (StatisticsFieldHashRuleDTO statisticsFieldHashRuleDTO : hashFile.getHashFieldList()) {
-
-            switch (hashFile.getDataType().intValue()) {
-                case STRING:
-                    processString(key, transDTO, hashFile, statisticsFieldHashRuleDTO);
-                    break;
-                case SET:
-                    processSet(key, transDTO, hashFile, statisticsFieldHashRuleDTO);
-                    break;
-                case HASH:
-                    processHash(key, transDTO, hashFile, statisticsFieldHashRuleDTO);
-                    break;
-                case Z_SET:
-                    processZSet(key, transDTO, hashFile, statisticsFieldHashRuleDTO);
-                    break;
-                default:
-                    log.error("invalid compute type");
-                    break;
-            }
+        switch (hashFile.getDataType().intValue()) {
+            case STRING:
+                processString(cacheKey, transDTO, hashFile, hashFile.getHashFieldList());
+                break;
+            case SET:
+                processSet(cacheKey, transDTO, hashFile, hashFile.getHashFieldList());
+                break;
+            case HASH:
+                processHash(cacheKey, transDTO, hashFile, hashFile.getHashFieldList());
+                break;
+            case Z_SET:
+                processZSet(cacheKey, transDTO, hashFile, hashFile.getHashFieldList());
+                break;
+            default:
+                log.error("invalid compute type");
+                break;
         }
 
     }
 
-    private void processString(String key, TransDTO transDTO, StatisticsFieldDTO hashFile, StatisticsFieldHashRuleDTO statisticsFieldHashRuleDTO) {
-        Integer count = (Integer) redisTemplate.opsForValue().get(key);
+    private void processString(String cacheKey, TransDTO transDTO, StatisticsFieldDTO hashFile, List<StatisticsFieldHashRuleDTO> statisticsFieldHashRuleDTOS) {
+        Integer count = (Integer) redisTemplate.opsForValue().get(cacheKey);
+        StatisticsFieldHashRuleDTO statisticsFieldHashRuleDTO = null;
+
+        for (StatisticsFieldHashRuleDTO temp : statisticsFieldHashRuleDTOS) {
+            if (Constant.INVALID_FLAG.equals(temp.getHashField())) {
+                statisticsFieldHashRuleDTO = temp;
+            }
+        }
 
         // 初始化计算上下文
         ComputeContextData computeContextData = new ComputeContextData();
@@ -83,33 +88,62 @@ public class ComputeHandler {
 
         if (INVALID_FLAG.equals(hashFile.getExpired().toString())) {
             // 不需要设置过期时间
-            redisTemplate.opsForValue().set(key, computeContextData.getAccumulate());
+            redisTemplate.opsForValue().set(cacheKey, computeContextData.getAccumulate());
         } else {
             // 需要设置过期时间
-            redisTemplate.opsForValue().set(key, computeContextData.getAccumulate(), hashFile.getExpired(), TimeUnit.SECONDS);
+            redisTemplate.opsForValue().set(cacheKey, computeContextData.getAccumulate(), hashFile.getExpired(), TimeUnit.SECONDS);
         }
         ComputeContext.getInstance().remove();
 
         log.info("save compute string success");
     }
 
-    private void processSet(String key, TransDTO transDTO, StatisticsFieldDTO hashFile, StatisticsFieldHashRuleDTO statisticsFieldHashRuleDTO) {
-        redisTemplate.opsForSet().add(key, transDTO.getKey());
-        redisTemplate.expire(key, hashFile.getExpired(), TimeUnit.SECONDS);
+    private void processSet(String cacheKey, TransDTO transDTO, StatisticsFieldDTO hashFile, List<StatisticsFieldHashRuleDTO> statisticsFieldHashRuleDTOS) {
+        redisTemplate.opsForSet().add(cacheKey, transDTO.getKey());
+        redisTemplate.expire(cacheKey, hashFile.getExpired(), TimeUnit.SECONDS);
 
         log.info("save compute set success");
     }
 
-    private void processHash(String key, TransDTO transDTO, StatisticsFieldDTO hashFile, StatisticsFieldHashRuleDTO statisticsFieldHashRuleDTO) {
+    private void processHash(String key, TransDTO transDTO, StatisticsFieldDTO hashFile, List<StatisticsFieldHashRuleDTO> statisticsFieldHashRuleDTOS) {
 
     }
 
-    private void processZSet(String key, TransDTO transDTO, StatisticsFieldDTO hashFile, StatisticsFieldHashRuleDTO statisticsFieldHashRuleDTO) {
+    private void processZSet(String key, TransDTO transDTO, StatisticsFieldDTO hashFile, List<StatisticsFieldHashRuleDTO> statisticsFieldHashRuleDTOS) {
+        ZSetOperations zSetOperations = redisTemplate.opsForZSet();
 
+        StatisticsFieldHashRuleDTO statisticsFieldHashRuleDTO = null;
+
+        for (StatisticsFieldHashRuleDTO temp : statisticsFieldHashRuleDTOS) {
+            if (Constant.INVALID_FLAG.equals(temp.getHashField())) {
+                statisticsFieldHashRuleDTO = temp;
+            }
+        }
+
+        // TODO 此处需要计算，后期需要加分布式锁
+        Double score = zSetOperations.score(key, transDTO.getKey().toString());
+
+        // 初始化计算上下文
+        ComputeContextData computeContextData = new ComputeContextData();
+        computeContextData.setScore(score);
+        computeContextData.setTransDTO(transDTO);
+        computeContextData.setStatisticsFieldHashRuleDTOS(statisticsFieldHashRuleDTOS);
+        ComputeContext.getInstance().setComputeContextData(computeContextData);
+
+        // 选择计算策略
+        ComputingEngine computingEngine = new ComputingEngine(statisticsFieldHashRuleDTO.getRuleEngine());
+
+        // 计算
+        computingEngine.operate();
+        computeContextData = ComputeContext.getInstance().getComputeContextData();
+
+        zSetOperations.add(key, transDTO.getKey(), computeContextData.getScore().doubleValue());
+
+        ComputeContext.getInstance().remove();
     }
 
     /**
-     * 排行榜
+     * 学生排行榜
      *
      * @param userId
      * @param experience

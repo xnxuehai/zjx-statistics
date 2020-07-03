@@ -41,6 +41,9 @@ public class TestController {
             case 3:
                 testBizService.voice(data.getUserId().toString());
                 break;
+            case 4:
+                testBizService.rank(data.getUserId().toString(), data.getExperience(), data.getMedal());
+                break;
             default:
                 log.info("没有对应的操作....");
                 break;

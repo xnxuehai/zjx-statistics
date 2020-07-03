@@ -31,4 +31,10 @@ public class TestBizServiceImpl implements TestBizService {
         log.info("{} -- voice 入参:{}", Thread.currentThread().getName(), userId);
         log.info("{} -- voice 业务逻辑持久化操作...", Thread.currentThread().getName());
     }
+
+    @Override
+    public void rank(String userId, Integer experience, Integer medal) {
+        log.info("{} -- rank userId:{},experience:{},medal:{}", Thread.currentThread().getName(), userId, experience, medal);
+        log.info("{} -- voice 业务逻辑持久化操作...", Thread.currentThread().getName());
+    }
 }
